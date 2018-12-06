@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route
-} from "react-router-dom";
-import Login from './screens/login/Login';
-import './css/bootstrap/css/bootstrap.css';
+import Teste1 from './Teste1';
+import Teste2 from './Teste2';
+import Teste3 from './Teste3';
 
 class App extends Component {
+
 	render() {
+		const state = this.props.appState;
+		console.log(state);
 		return (
-			<Router>
-				<Switch>
-					<Route exact={true} path='/login' component={ Login } />
-				</Switch>
-			</Router>
+			<div>
+				<Teste1 update={this.props.setAppState} />
+				<Teste2 update={this.props.setAppState} />
+				<Teste3 chitos={state.clicked?state.header.text:''} />
+			</div>
 		);
 	}
 }
