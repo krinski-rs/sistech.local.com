@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
-	Route
+	Route,
+	Redirect
 } from "react-router-dom";
 import Login from './screens/login/Login';
 import Home from './screens/home/Home';
@@ -12,17 +13,28 @@ import './css/bootstrap/css/bootstrap.css';
 //import Teste2 from './Teste2';
 //import Teste3 from './Teste3';
 
-class App extends Component {
 
+function PrivateRoute({ component: Component, ...rest }) {
+	return (
+		<Route {...rest}
+			render={ props =>
+				rest.user.logged ? 
+					( <Component {...rest} /> ) : 
+					( <Redirect to={{ pathname: "/login", state: { from: props.location } }} /> )
+			}
+		/>
+	);
+}
+
+class App extends Component {
 	render() {
 		const state = this.props.appState;
-		console.log("App");
-		console.log(state);
 		return (
 			<Router>
 				<Switch>
-					<Route exact={true} path='/login' render={()=><Login {...this.props.appState} />} />
-					<Route exact={true} path='/home' render={()=><Home {...this.props.appState} />} />
+					<Route exact={true} path='/' render={()=><Login {...this.props.appState} update={this.props.setAppState} />} />
+					<Route exact={true} path='/login' render={()=><Login {...this.props.appState} update={this.props.setAppState} />} />
+					<PrivateRoute path="/home" component={Home} {...this.props.appState}  />
 				</Switch>
 			</Router>
 		);

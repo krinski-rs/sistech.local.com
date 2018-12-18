@@ -2,38 +2,17 @@ import React from 'react';
 import { Redirect } from 'react-router-dom'
 import cookie from 'react-cookies';
 import Alert from '../alert/Alert';
-import Home from '../home/Home';
 import './css/login.css';
 
 class Login extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {
-			alert: {
-				view: false,
-				msg: ''
-			},
-			redirect: false,
-			isLogged: false
-		};
-
 	    this.handleSubmit = this.handleSubmit.bind(this);
-	    
-	}
-	
-	isLoggedIn = () => {
-		return this.props.user.logged;
-	}
-	
-	setRedirect = () => {
-		this.setState({
-			redirect: this.props.user.logged
-		})
 	}
 	
 	renderRedirect = () => {
 		if (this.props.user.logged) {
-			return <Redirect to='/home' component={Home} />
+			return <Redirect to='/home' />
 		}
 	}
 
@@ -91,34 +70,34 @@ class Login extends React.Component {
 	    }).then((response) => {
 	    	if(!response.ok){
 	    		var retorno = response.json();
-	    		this.setState({
-	    			alert: {
-	    				view: true
-	    			}
+	    		this.props.update({
+	    			error:true,
+	    			msg: "Usuário ou senha inválidos!"
 	    		});
     			return retorno;
 	    	}else{
-	    		this.setState({
-	    			alert: {
-	    				view: false,
-	    				msg: ""
-	    			}
+	    		this.props.update({
+	    			error:false,
+	    			msg: ""
 	    		});
-
 	    	}
 	    	
     		return response.json();
 	    }).then((data) => {
-	    	if(!this.state.alert.view){
+	    	if(!this.props.error){
 		    	cookie.save('sso', data.AccessToken, { path: '/', domain: '.local.com', httpOnly: false });
-		    	this.setRedirect();
+		    	console.log(data);
 	    	}else{
-	    		this.setState({
-	    			alert: {
-	    				view: true,
-	    				msg: data.mensagem
+	    		this.props.update({
+	    			user: {
+	    				logged: true,
+	    				cookie: data.AccessToken,
+	    				name: data.nome,
+	    				userName: data.username
 	    			}
 	    		});
+	    		this.renderRedirect();
+	    		
 	    	}
 	    }).catch((error) => {
 	    	console.log('error: ' + error);
@@ -127,13 +106,10 @@ class Login extends React.Component {
 	
 	render() {
 		const state = this.props;
-		console.log("Login");
-		console.log(state);
-
 		return (
 			<form className="form-signin center-block text-center" noValidate onSubmit={this.handleSubmit}>
 			{
-				this.state.alert.view ? <Alert text={ this.state.alert.msg } /> : this.renderRedirect()
+				this.props.error ? <Alert text={ this.props.msg } /> : this.renderRedirect()
 			}
 				<h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
 				<label htmlFor="username" className="sr-only">Email address</label>

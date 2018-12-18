@@ -4,6 +4,8 @@ class AppState extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			error: false,
+			msg: "",
 			user: {
 				logged: false,
 				cookie: null,

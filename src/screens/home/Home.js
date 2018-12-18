@@ -8,19 +8,23 @@ import {
 } from "react-router-dom";
 import Public from './Public';
 import Chuchu from './Chuchu';
-import Login from '../login/Login';
 
 class Home extends React.Component {
-	constructor(props){
-		super(props);
+	
+	componentDidMount(){
+		if(!this.props.user.logged || (this.props.user.cookie == null)){
+			this.renderRedirect();
+		}
+	}
+
+	renderRedirect = () => {
+		if (!this.props.user.logged) {
+			return <Redirect to='/login' />
+		}
 	}
 
 	render() {
 		const state = this.props;
-		console.log("Home");
-		console.log(state);
-
-
 		return (
 		    <Router>
 		      <div>
