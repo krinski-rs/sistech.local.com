@@ -3,28 +3,14 @@ import PropTypes from 'prop-types';
 import {
 	BrowserRouter as Router,
 	Route,
-	Link,
-	Redirect
+	Link
 } from "react-router-dom";
 import Public from './Public';
 import Chuchu from './Chuchu';
 
 class Home extends React.Component {
-	
-	componentDidMount(){
-		if(!this.props.user.logged || (this.props.user.cookie == null)){
-			this.renderRedirect();
-		}
-	}
-
-	renderRedirect = () => {
-		if (!this.props.user.logged) {
-			return <Redirect to='/login' />
-		}
-	}
-
 	render() {
-		const state = this.props;
+//		const state = this.props;
 		return (
 		    <Router>
 		      <div>

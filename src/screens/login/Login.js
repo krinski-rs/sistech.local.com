@@ -86,8 +86,6 @@ class Login extends React.Component {
 	    }).then((data) => {
 	    	if(!this.props.error){
 		    	cookie.save('sso', data.AccessToken, { path: '/', domain: '.local.com', httpOnly: false });
-		    	console.log(data);
-	    	}else{
 	    		this.props.update({
 	    			user: {
 	    				logged: true,
@@ -97,7 +95,6 @@ class Login extends React.Component {
 	    			}
 	    		});
 	    		this.renderRedirect();
-	    		
 	    	}
 	    }).catch((error) => {
 	    	console.log('error: ' + error);
@@ -109,7 +106,7 @@ class Login extends React.Component {
 		return (
 			<form className="form-signin center-block text-center" noValidate onSubmit={this.handleSubmit}>
 			{
-				this.props.error ? <Alert text={ this.props.msg } /> : this.renderRedirect()
+				state.error ? <Alert text={ state.msg } /> : this.renderRedirect()
 			}
 				<h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
 				<label htmlFor="username" className="sr-only">Email address</label>

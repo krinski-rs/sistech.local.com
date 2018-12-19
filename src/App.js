@@ -29,12 +29,13 @@ function PrivateRoute({ component: Component, ...rest }) {
 class App extends Component {
 	render() {
 		const state = this.props.appState;
+		console.log(state);
 		return (
 			<Router>
 				<Switch>
-					<Route exact={true} path='/' render={()=><Login {...this.props.appState} update={this.props.setAppState} />} />
-					<Route exact={true} path='/login' render={()=><Login {...this.props.appState} update={this.props.setAppState} />} />
-					<PrivateRoute path="/home" component={Home} {...this.props.appState}  />
+					<Route exact={true} path='/' render={()=><Login {...state} update={this.props.setAppState} />} />
+					<Route exact={true} path='/login' render={()=><Login {...state} update={this.props.setAppState} />} />
+					<PrivateRoute path="/home" component={Home} {...state}  />
 				</Switch>
 			</Router>
 		);
