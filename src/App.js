@@ -8,11 +8,10 @@ import {
 import Login from './screens/login/Login';
 import Home from './screens/home/Home';
 import './css/bootstrap/css/bootstrap.css';
-
-//import Teste1 from './Teste1';
-//import Teste2 from './Teste2';
-//import Teste3 from './Teste3';
-
+import './css/metisMenu/metisMenu.css';
+import './css/sb-admin-2.css';
+import './css/morris/morris.css';
+import './css/font-awesome/css/font-awesome.css';
 
 function PrivateRoute({ component: Component, ...rest }) {
 	return (
