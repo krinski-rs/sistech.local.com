@@ -10,6 +10,7 @@ import Chuchu from './Chuchu';
 
 class Home extends React.Component {
 	render() {
+//		const state = this.props;
 		return (
 		    <Router>
 		      <div>
@@ -30,7 +31,8 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-	title: PropTypes.string
+	title: PropTypes.string,
+	user: PropTypes.object
 };
 
 Home.defaultProps = {
