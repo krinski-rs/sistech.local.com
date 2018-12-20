@@ -29,7 +29,6 @@ function PrivateRoute({ component: Component, ...rest }) {
 class App extends Component {
 	render() {
 		const state = this.props.appState;
-		console.log(state);
 		return (
 			<Router>
 				<Switch>
