@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom'
 import cookie from 'react-cookies';
 import Alert from '../alert/Alert';
+import { getCookie, auth } from '../../components/util/auth';
 import './css/login.css';
 
 class Login extends React.Component {
@@ -108,6 +109,7 @@ class Login extends React.Component {
 			{
 				state.error ? <Alert text={ state.msg } /> : this.renderRedirect()
 			}
+			
 				<h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
 				<label htmlFor="username" className="sr-only">Email address</label>
 				<input type="email" id="username" name="username" className="form-control" placeholder="Email address" required autoFocus />
