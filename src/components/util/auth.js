@@ -4,7 +4,19 @@ const getCookie = () => {
 	return cookie.load('sso');
 };
 
-const auth = (event) => {
+const login = (event, update) => {
+	event.preventDefault();
+	if (!event.target.checkValidity()) {
+		update({
+			error:true,
+			msg: "Preencha todos os campos."
+		});
+		/*
+		 * formulário é inválido! então não fazemos nada
+		 */
+		return;
+	}
+	
     var current, entries, item, key, output, value;
     output = {};
     entries = new FormData( event.target ).entries();
@@ -42,6 +54,7 @@ const auth = (event) => {
     
     fetch('http://sso.local.com/auth/login', {
     	method: 'POST',
+    	credentials: 'include',
     	body: JSON.stringify(output),
     	headers: {
     		"Content-Type": "application/json",
@@ -50,23 +63,17 @@ const auth = (event) => {
     }).then((response) => {
     	if(!response.ok){
     		var retorno = response.json();
-    		this.props.update({
+    		update({
     			error:true,
     			msg: "Usuário ou senha inválidos!"
     		});
 			return retorno;
-    	}else{
-    		this.props.update({
-    			error:false,
-    			msg: ""
-    		});
     	}
-    	
 		return response.json();
     }).then((data) => {
-    	if(!this.props.error){
+    	if(data.id > 0){
 	    	cookie.save('sso', data.AccessToken, { path: '/', domain: '.local.com', httpOnly: false });
-    		this.props.update({
+	    	update({
     			user: {
     				logged: true,
     				cookie: data.AccessToken,
@@ -74,11 +81,32 @@ const auth = (event) => {
     				userName: data.username
     			}
     		});
-    		this.renderRedirect();
     	}
+    }).catch((error) => {
+    	update({
+			user: {},
+			error:true,
+			msg: "Usuário ou senha inválidos!"			
+		});
+    	console.log('error: ' + error);
+    });
+};
+
+const me = (update) => {
+    fetch('http://sso.local.com/auth/me', {
+    	method: 'GET',
+    	credentials: 'include'
+    }).then((response) => {
+    	if(!response.ok){
+    		var retorno = response.json();
+			return retorno;
+    	}
+		return response.json();
+    }).then((data) => {
+    	console.log(data);
     }).catch((error) => {
     	console.log('error: ' + error);
     });
 };
 
-export { getCookie, auth };
+export { getCookie, login, me };
