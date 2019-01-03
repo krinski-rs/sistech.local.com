@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom'
 //import cookie from 'react-cookies';
 import Alert from '../alert/Alert';
-import { login, me } from '../../components/util/auth';
+import { login, me, getCookie } from '../../components/util/auth';
 import './css/login.css';
 
 class Login extends React.Component {
@@ -11,8 +11,12 @@ class Login extends React.Component {
 	    this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	
-	componentDidMount(prevProps) {
-		console.log(me());
+	componentDidMount() {
+		if(this.props.user && this.props.user.logged && (this.props.user.cookie === getCookie())){
+			this.renderRedirect();
+		}else if(getCookie()){
+			me(this.props.update);
+		}
 	}
 	
 	renderRedirect = () => {
@@ -23,6 +27,7 @@ class Login extends React.Component {
 
 	handleSubmit(event) {
 		login(event, this.props.update);
+		this.renderRedirect();
 	}
 	
 	render() {

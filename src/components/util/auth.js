@@ -51,7 +51,6 @@ const login = (event, update) => {
     	
     	item = entries.next().value;
     }
-    
     fetch('http://sso.local.com/auth/login', {
     	method: 'POST',
     	credentials: 'include',
@@ -93,6 +92,14 @@ const login = (event, update) => {
 };
 
 const me = (update) => {
+    if(!getCookie()){
+    	update({
+			user: {},
+			error:true,
+			msg: "Usuário não logado!"			
+		});
+    }
+
     fetch('http://sso.local.com/auth/me', {
     	method: 'GET',
     	credentials: 'include'
@@ -103,7 +110,16 @@ const me = (update) => {
     	}
 		return response.json();
     }).then((data) => {
-    	console.log(data);
+    	if(data.id > 0){
+	    	update({
+    			user: {
+    				logged: true,
+    				cookie: data.AccessToken,
+    				name: data.nome,
+    				userName: data.username
+    			}
+    		});
+    	}
     }).catch((error) => {
     	console.log('error: ' + error);
     });
