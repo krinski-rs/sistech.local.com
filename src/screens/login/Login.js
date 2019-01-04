@@ -12,9 +12,12 @@ class Login extends React.Component {
 	}
 	
 	componentDidMount() {
+		console.log(this.props.user);
 		if(this.props.user && this.props.user.logged && (this.props.user.cookie === getCookie())){
 			this.renderRedirect();
 		}else if(getCookie()){
+			console.log(getCookie());
+			console.log(this.props.user);
 			me(this.props.update);
 		}
 	}

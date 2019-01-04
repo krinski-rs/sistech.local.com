@@ -1,59 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-
+import TopLinks from './TopLinks';
 class NavBarTopLinks extends Component {
 	render() {
 		return (
 			<ul className="nav navbar-top-links navbar-right">
-                <li className="dropdown">
-                    <Link to="#" className="dropdown-toggle" data-toggle="dropdown">
-                        <i className="fa fa-envelope fa-fw"></i> <i className="fa fa-caret-down"></i>
-                    </Link>
-                    <ul className="dropdown-menu dropdown-messages">
-                        <li>
-                            <Link to="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span className="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </Link>
-                        </li>
-                        <li className="divider"></li>
-                        <li>
-                            <Link to="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span className="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </Link>
-                        </li>
-                        <li className="divider"></li>
-                        <li>
-                            <Link to="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span className="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </Link>
-                        </li>
-                        <li className="divider"></li>
-                        <li>
-                            <Link to="#" className="text-center">
-                                <strong>Read All Messages</strong>
-                                <i className="fa fa-angle-right"></i>
-                            </Link>
-                        </li>
-                    </ul>
-                </li>
+                <TopLinks />
                 <li className="dropdown">
                     <Link to="#" className="dropdown-toggle" data-toggle="dropdown">
                         <i className="fa fa-tasks fa-fw"></i> <i className="fa fa-caret-down"></i>
