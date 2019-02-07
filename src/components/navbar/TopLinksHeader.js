@@ -6,7 +6,7 @@ class TopLinksHeader extends React.Component {
 		return (
 			<a className="dropdown-toggle" data-toggle="dropdown" href={ this.props.href } aria-expanded={this.props.toggle}>
 				<i className={ "fa "+this.props.className+" fa-fw" }></i>&nbsp;
-				<i className="fa fa-caret-down"></i>
+				<i className={ "fa fa-caret-" + ( this.props.toggle ? "down" : "up" ) } ></i>
 			</a>
 		 );
 	}
@@ -15,7 +15,12 @@ class TopLinksHeader extends React.Component {
 TopLinksHeader.propTypes = {
 	className: PropTypes.string,
 	href: PropTypes.string,
-	toggle: PropTypes.boolean
+	toggle: PropTypes.bool
+};
+
+TopLinksHeader.defaultProps = {
+	href: "#",
+	toggle: false
 };
 
 export default TopLinksHeader;

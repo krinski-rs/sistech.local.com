@@ -9,9 +9,7 @@ class Home extends React.Component {
 //		const state = this.props;
 		return (
 			<div id="wrapper">
-				<NavBar />
-
-
+				<NavBar update={ this.props.update }/>
 	        <div id="page-wrapper">
 	            <div className="row">
 	                <div className="col-lg-12">
