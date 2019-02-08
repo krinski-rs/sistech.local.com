@@ -10,10 +10,10 @@ class Home extends React.Component {
 		return (
 			<div id="wrapper">
 				<NavBar update={ this.props.update }/>
-	        <div id="page-wrapper">
+				<div id="page-wrapper">
 	            <div className="row">
 	                <div className="col-lg-12">
-	                    <h1 className="page-header">Dashboard</h1>
+	                    <h1 className="page-header">Dashboard 1</h1>
 	                </div>
 	            </div>
 	            <div className="row">
