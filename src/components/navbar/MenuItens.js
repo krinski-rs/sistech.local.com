@@ -13,7 +13,6 @@ class MenuItens extends React.Component {
 	}
 	
 	handleClick(event) {
-		console.log("click!!");
 		event.preventDefault();
 		this.setState(prevState => ({
 			toggle: !prevState.toggle

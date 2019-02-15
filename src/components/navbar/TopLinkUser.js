@@ -23,7 +23,6 @@ class TopLinkUser extends React.Component {
 	
 	logOut(event, update) {
 		event.preventDefault();
-		console.log('123');
 		logout(update);
 	}
 
