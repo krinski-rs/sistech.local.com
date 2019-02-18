@@ -7,7 +7,7 @@ class MenuItem extends React.Component {
 		return (
 			<li>
                 <Link to={ this.props.linkTo }>
-                	<i className={ "fa " + this.props.className + " fa-fw" }></i>
+                	<i className={ this.props.className }></i>
                 	&nbsp;{ this.props.title }
                 </Link>
             </li>
