@@ -14,12 +14,61 @@ class Cadastro extends React.Component {
 			console.log("erro");
 			return false;
 		}
-	    requests(event, "POST", {
+		
+	    var current, entries, item, key, output, value;
+	    output = {};
+	    entries = new FormData( event.target ).entries();
+	    /*
+	     * Iterar sobre valores e atribuir ao item.
+	     */
+
+	    item = entries.next().value;
+	    while( item ) {
+	    	/*
+	    	 * atribuir a variáveis para tornar o código mais legível.
+	    	 */
+	    	key = item[0];
+	    	value = item[1];
+	    	console.log('key::'+key);
+	    	console.log('value::'+value);
+	    	console.log('item::'+value);
+	    	console.log(item);
+	    	/*
+	    	 * Verifique se a chave já existe
+	    	 */
+	    	if(Object.prototype.hasOwnProperty.call( output, key)){
+	    		current = output[ key ];
+	    		if( !Array.isArray( current ) ){
+	    			/*
+	    			 * Se não for um array, converta-o para um array.
+	    			 */
+	    			current = output[ key ] = [ current ];
+	    		}
+	    		/*
+	    		 * Adicona o novo valor ao array.
+	    		 */
+	    		current.push( value );
+	    	}else{
+	    		output[ key ] = value;
+	    	}
+	    	
+	    	item = entries.next().value;
+	    }
+
+	    output["ativo"] = true;
+	    output["tipo"] = "JURÍDICA";
+		console.log("OUT PUT");
+		console.log(JSON.stringify(output));
+	    requests(output, "POST", {
     		"Content-Type": "application/json",
     		"ApiKey": "3ada8f87cef4d41dbb385e41d0d55305b649161b"
     	}, "http://pessoa.local.com/api/pessoas/pessoa/");
 		
 	}
+	/*
+	 * cpf [0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}
+	 * cnpj [0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}\-?[0-9]{2}
+	*/
 	
 	render() {
 		return (
@@ -29,19 +78,39 @@ class Cadastro extends React.Component {
 	                <div className="col-lg-12">
 	                    <div className="panel panel-default">
 		                    <div className="panel-heading">
-		                    { "Formulário de Cadastro de Pessoa Jurídica" }
+		                    { "Informações de Pessoa Jurídica" }
 		                    </div>
                         	<form onSubmit={this.handleSubmit} noValidate>
 		                        <div className="panel-body">
 		                            <div className="row">
-			                            <div className="col-lg-12">
+			                            <div className="col-lg-6">
+		                                    <div className="form-group">
+			                                    <label>Nacionalidade</label>
+	                                            <select className="form-control" name="nacionalidade" id="nacionalidade">
+	                                            	<option>Selecione</option>
+	                                            	<option value="BRASILEIRA">BRASILEIRA</option>
+	                                            	<option value="ESTRANGEIRA">ESTRANGEIRA</option>
+	                                            </select>
+			                                </div>
+					                    </div>
+			                            <div className="col-lg-6">
+		                                    <div className="form-group">
+			                                    <label>Data de Fundação</label>
+			                                    <input name="dataAniversario" id="dataAniversario" className="form-control" maxLength="10" />
+			                                </div>
+					                    </div>
+			                            <div className="col-lg-6">
 		                                    <div className="form-group">
 			                                    <label>Razão Social</label>
-			                                    <input name="chitos" className="form-control" />
+			                                    <input name="nomes[0][nome]" id="razao_social" className="form-control" maxLength="255" />
 			                                </div>
+					                    </div>
+			                            <div className="col-lg-6">
 			                                <div className="form-group">
 			                                    <label>Nome Fantasia</label>
-			                                    <input className="form-control" />
+			                                    <input name="nomes[1][nome]" id="nome_fantasia" className="form-control" maxLength="255" />
+			                                    <input type="hidden" name="nomes[tipo]" id="tipo_razao_social" className="form-control" value="RAZÃO SOCIAL" />
+			                                    <input type="hidden" name="nomes[tipo]" id="tipo_nome_fantasia" className="form-control" value="NOME FANTASIA" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-3">
