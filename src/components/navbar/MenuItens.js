@@ -22,7 +22,7 @@ class MenuItens extends React.Component {
 		return (
 			<li className={this.state.toggle ? "active" : ""}>
                 <Link to={ this.props.linkTo } onClick={ this.handleClick }>
-                	<i className={ "fa " + this.props.className + " fa-fw" }></i>
+                	<i className={ this.props.className }></i>
                 	&nbsp;{ this.props.title }
                 	<span className="fa arrow"></span>
                 </Link>
