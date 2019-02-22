@@ -1,7 +1,26 @@
 import React from 'react';
 import Title from "../../../components/form/Title";
+import { requests } from '../../../components/util/request';
 
 class Cadastro extends React.Component {
+	constructor(props) {
+		super(props);
+		
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+	handleSubmit(event) {
+		event.preventDefault();
+		if (!event.target.checkValidity()) {
+			console.log("erro");
+			return false;
+		}
+	    requests(event, "POST", {
+    		"Content-Type": "application/json",
+    		"ApiKey": "3ada8f87cef4d41dbb385e41d0d55305b649161b"
+    	}, "http://pessoa.local.com/api/pessoas/pessoa/");
+		
+	}
+	
 	render() {
 		return (
 			<div id="page-wrapper">
@@ -12,13 +31,13 @@ class Cadastro extends React.Component {
 		                    <div className="panel-heading">
 		                    { "Formulário de Cadastro de Pessoa Jurídica" }
 		                    </div>
-                        	<form>
+                        	<form onSubmit={this.handleSubmit} noValidate>
 		                        <div className="panel-body">
 		                            <div className="row">
 			                            <div className="col-lg-12">
 		                                    <div className="form-group">
 			                                    <label>Razão Social</label>
-			                                    <input className="form-control" />
+			                                    <input name="chitos" className="form-control" />
 			                                </div>
 			                                <div className="form-group">
 			                                    <label>Nome Fantasia</label>
@@ -140,7 +159,9 @@ class Cadastro extends React.Component {
 			                                </div>
 					                    </div>
 				                    </div>
-			                    </div>
+                                    <button type="submit" className="btn btn-success">Submit Button</button>
+                                    <button type="reset" className="btn btn-warning">Reset Button</button>
+				                </div>
                         	</form>
 	                    </div>
                     </div>
