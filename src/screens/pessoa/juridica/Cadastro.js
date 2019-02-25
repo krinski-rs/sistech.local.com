@@ -54,6 +54,41 @@ class Cadastro extends React.Component {
 	    	
 	    	item = entries.next().value;
 	    }
+	    
+	    output["nomes"] = [
+	    	{
+	    		nome: output["nomes[0][nome]"],
+	    		tipo: output["nomes[0][tipo]"]
+	    	},
+	    	{
+	    		nome: output["nomes[1][nome]"],
+	    		tipo: output["nomes[1][tipo]"]
+	    	}
+	    ];
+	    output["enderecos"] = [
+	    	{
+	    		pais: output["pais"],
+	    		estado: output["estado"],
+	    		cidade: output["cidade"],
+	    		cep: output["cep"],
+	    		bairro: output["bairro"],
+	    		complemento: output["complemento"],
+	    		logradouro: output["logradouro"],
+	    		numero: output["numero"],
+	    		uf: "RS",
+	    		tipo: "COMERCIAL"
+	    	}
+	    ];
+	    output["documentos"] = [
+	    	{
+	    		tipo: "CNPJ",
+	    		valor: output["cnpj"]
+	    	},
+	    	{
+	    		tipo: "INSCRIÇÃO ESTADUAL",
+	    		valor: output["inscricaoEstadual"]
+	    	}
+	    ];
 
 	    output["ativo"] = true;
 	    output["tipo"] = "JURÍDICA";
@@ -96,7 +131,7 @@ class Cadastro extends React.Component {
 			                            <div className="col-lg-6">
 		                                    <div className="form-group">
 			                                    <label>Data de Fundação</label>
-			                                    <input name="dataAniversario" id="dataAniversario" className="form-control" maxLength="10" />
+			                                    <input name="dataAniversario" id="dataAniversario" className="form-control" maxLength="20" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-6">
@@ -109,20 +144,20 @@ class Cadastro extends React.Component {
 			                                <div className="form-group">
 			                                    <label>Nome Fantasia</label>
 			                                    <input name="nomes[1][nome]" id="nome_fantasia" className="form-control" maxLength="255" />
-			                                    <input type="hidden" name="nomes[tipo]" id="tipo_razao_social" className="form-control" value="RAZÃO SOCIAL" />
-			                                    <input type="hidden" name="nomes[tipo]" id="tipo_nome_fantasia" className="form-control" value="NOME FANTASIA" />
+			                                    <input type="hidden" name="nomes[0][tipo]" id="tipo_razao_social" className="form-control" value="RAZÃO SOCIAL" />
+			                                    <input type="hidden" name="nomes[1][tipo]" id="tipo_nome_fantasia" className="form-control" value="NOME FANTASIA" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-3">
 			                                <div className="form-group">
 			                                    <label>CNPJ</label>
-			                                    <input className="form-control" />
+			                                    <input name="cnpj" className="form-control" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-3">
 			                                <div className="form-group">
 			                                    <label>Inscrição Estadual</label>
-			                                    <input className="form-control" />
+			                                    <input name="inscricaoEstadual" className="form-control" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-3">
@@ -171,54 +206,48 @@ class Cadastro extends React.Component {
 			                            <div className="col-lg-3">
 			                                <div className="form-group">
 			                                    <label>Inscrição Municipal</label>
-			                                    <input className="form-control" />
-			                                </div>
-					                    </div>
-			                            <div className="col-lg-3">
-			                                <div className="form-group">
-			                                    <label>Data de Fundação</label>
-			                                    <input className="form-control" />
+			                                    <input name="inscricaoMunicipal" className="form-control" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-3">
 			                                <div className="form-group">
 			                                    <label>CEP</label>
-			                                    <input className="form-control" />
+			                                    <input name="cep" className="form-control" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-6">
 			                                <div className="form-group">
 			                                    <label>País</label>
-			                                    <input className="form-control" />
+			                                    <input name="pais" className="form-control" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-6">
 			                                <div className="form-group">
 			                                    <label>Estado</label>
-			                                    <input className="form-control" />
+			                                    <input name="estado" className="form-control" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-6">
 			                                <div className="form-group">
 			                                    <label>Cidade</label>
-			                                    <input className="form-control" />
+			                                    <input name="cidade" className="form-control" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-6">
 			                                <div className="form-group">
 			                                    <label>Bairro</label>
-			                                    <input className="form-control" />
+			                                    <input name="bairro" className="form-control" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-6">
 			                                <div className="form-group">
 			                                    <label>Logradouro</label>
-			                                    <input className="form-control" />
+			                                    <input name="logradouro" className="form-control" />
 			                                </div>
 
 			                                <div className="form-group">
 			                                    <label>Número</label>
-			                                    <input className="form-control" />
+			                                    <input name="numero" className="form-control" />
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-6">
