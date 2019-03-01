@@ -5,7 +5,7 @@ const requests = (data, method, headers, endPoint) => {
     console.log(JSON.stringify(data));
     console.log(JSON.stringify(headers));
 //    return ;
-    fetch("http://pessoa.local.com/api/pessoas/pessoa/", {
+    fetch(endPoint, {
     	method: 'POST',
     	credentials: 'include',
     	body: JSON.stringify(data),

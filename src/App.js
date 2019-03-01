@@ -34,6 +34,8 @@ class App extends Component {
 					<Route exact={true} path='/' render={()=><Login {...state} update={this.props.setAppState} />} />
 					<Route exact={true} path='/login' render={()=><Login {...state} update={this.props.setAppState} />} />
 					<PrivateRoute path="/home" component={Home} update={this.props.setAppState} {...state}  />
+					<PrivateRoute path="/pdv" component={Home} update={this.props.setAppState} {...state}  />
+					<PrivateRoute path="/pessoa" component={Home} update={this.props.setAppState} {...state}  />
 				</Switch>
 			</Router>
 		);

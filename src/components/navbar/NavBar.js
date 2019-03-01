@@ -30,7 +30,7 @@ class NavBar extends Component {
                         				onclick: null,
                         				itens: [
                         					{
-        	                    				linkTo: "/home/pessoa/cadastro/pj",
+        	                    				linkTo: "/pessoa/cadastro/pj",
         	                    				title: "Cadastro",
         	                    				className: "",
         	                    				onclick: null
@@ -67,8 +67,23 @@ class NavBar extends Component {
 						},
 						{
 							linkTo: "#",
-							title: "Tables",
-							className: "fa fa-table fa-fw"
+							title: "PDV",
+							className: "fa fa-location-arrow fa-fw",
+                        	levelClass: "nav-second-level",
+                        	itens: [
+                    			{
+                    				linkTo: "/pdv/cadastro",
+                    				title: "Cadastro",
+                    				className: "",
+                    				onclick: null
+                    			},
+                    			{
+                    				linkTo: "/pdv/lista",
+                    				title: "Listagem",
+                    				className: "",
+                    				onclick: null
+                    			}
+                    		]
 						},
 						{
 							linkTo: "#",
