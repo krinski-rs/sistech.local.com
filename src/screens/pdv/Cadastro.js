@@ -11,7 +11,7 @@ class Cadastro extends React.Component {
 	handleSubmit(event) {
 		event.preventDefault();
 		if (!event.target.checkValidity()) {
-			console.log("erro");
+//			console.log("erro");
 			return false;
 		}
 		
@@ -29,10 +29,7 @@ class Cadastro extends React.Component {
 	    	 */
 	    	key = item[0];
 	    	value = item[1];
-	    	console.log('key::'+key);
-	    	console.log('value::'+value);
-	    	console.log('item::'+value);
-	    	console.log(item);
+//	    	console.log(item);
 	    	/*
 	    	 * Verifique se a chave já existe
 	    	 */
@@ -54,46 +51,8 @@ class Cadastro extends React.Component {
 	    	
 	    	item = entries.next().value;
 	    }
-	    
-	    output["nomes"] = [
-	    	{
-	    		nome: output["nomes[0][nome]"],
-	    		tipo: output["nomes[0][tipo]"]
-	    	},
-	    	{
-	    		nome: output["nomes[1][nome]"],
-	    		tipo: output["nomes[1][tipo]"]
-	    	}
-	    ];
-	    output["enderecos"] = [
-	    	{
-	    		pais: output["pais"],
-	    		estado: output["estado"],
-	    		cidade: output["cidade"],
-	    		cep: output["cep"],
-	    		bairro: output["bairro"],
-	    		complemento: output["complemento"],
-	    		logradouro: output["logradouro"],
-	    		numero: output["numero"],
-	    		uf: "RS",
-	    		tipo: "COMERCIAL"
-	    	}
-	    ];
-	    output["documentos"] = [
-	    	{
-	    		tipo: "CNPJ",
-	    		valor: output["cnpj"]
-	    	},
-	    	{
-	    		tipo: "INSCRIÇÃO ESTADUAL",
-	    		valor: output["inscricaoEstadual"]
-	    	}
-	    ];
-
-	    output["ativo"] = true;
-	    output["tipo"] = "JURÍDICA";
-		console.log("OUT PUT");
-		console.log(JSON.stringify(output));
+//		console.log("OUT PUT");
+//		console.log(JSON.stringify(output));
 	    requests(output, "POST", {
     		"Content-Type": "application/json",
     		"ApiKey": "3ada8f87cef4d41dbb385e41d0d55305b649161b"

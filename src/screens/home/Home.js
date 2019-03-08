@@ -22,34 +22,6 @@ class Home extends React.Component {
 		}
 	}
 	
-	getMenu(){
-	    fetch('http://sso.local.com/auth/logout', {
-	    	method: 'DELETE',
-	    	credentials: 'include'
-	    }).then((response) => {
-	    	if(!response.ok){
-	    		var retorno = response.json();
-				return retorno;
-	    	}
-			return response.json();
-	    }).then((data) => {
-	    	if(data.logout){
-//		    	update({
-//					user: {
-//						logged: false,
-//						cookie: null,
-//						name: null,
-//						userName: null
-//					}
-//				});
-//		    	cookie.remove('sso', { path: '/', domain: '.local.com', httpOnly: false });	    	
-	    	}
-	    }).catch((error) => {
-	    	console.log('error: ' + error);
-	    });
-
-	}
-	
 	render() {
 		return (
 			<div id="wrapper">
