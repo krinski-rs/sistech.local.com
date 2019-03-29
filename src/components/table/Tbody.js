@@ -4,6 +4,7 @@ import Actions from './Actions';
 
 class Tbody extends Component {
 	render() {
+		let updateParent = this.props.updateParent;
 		return (
 			<tbody>
 				{
@@ -13,8 +14,12 @@ class Tbody extends Component {
 		    						<td key={ i }>{ o.text }</td> : 
 		    						<td key={ i+"A" }>
 		    								{o.actions.icons.map(function(icon, idx){
-			    								return <Actions key={idx} className={ icon.className } title={ icon.title } href={ o.actions.path } />
-		    									
+			    								return <Actions key={idx+"B"} 
+			    												className={ icon.className } 
+			    												title={ icon.title } 
+																href={ o.actions.path }
+			    												updateParent={updateParent}
+			    								/>
 		    								})}
 		    						</td>
 		    			})}
@@ -28,12 +33,15 @@ class Tbody extends Component {
 
 Tbody.propTypes = {
 	list: PropTypes.array.isRequired,
-	actions: PropTypes.bool.isRequired
+	actions: PropTypes.bool.isRequired,
+	updateParent: PropTypes.func
+	
 };
 
 Tbody.defaultProps = {
 	list: [],
-	actions: false
+	actions: false,
+	updateParent: null
 };
 
 export default Tbody;

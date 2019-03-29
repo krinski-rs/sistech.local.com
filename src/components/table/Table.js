@@ -2,8 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from "./Header";
 import Tbody from "./Tbody";
+import Modal from "../modal/Modal";
 
 class Table extends Component {
+	
+	constructor(props) {
+		super(props);
+		this.state = {
+			fade: false
+		}
+		this.updateState = this.updateState.bind(this);
+	}	
+	
+	updateState(){
+		this.setState(prevState => ({
+			fade: !prevState.fade
+		}));
+	}
+	
 	render() {
 		return (
 			<div className={ this.props.classColumns }>
@@ -14,10 +30,11 @@ class Table extends Component {
                     <div className="panel-body">
                         <table width="100%" className="table table-striped table-bordered table-hover" id={ this.props.id }>
 	            			<Header list={ this.props.list.header } actions={ this.props.list.actions } />
-	            			<Tbody  list={ this.props.list.body } actions={ this.props.list.actions } />
+	            			<Tbody  list={ this.props.list.body } actions={ this.props.list.actions } updateParent={this.updateState} />
                         </table>
                     </div>
                 </div>
+				<Modal fade={ this.state.fade } updateParent={this.updateState} />
             </div>
 		);
 	}

@@ -18,10 +18,10 @@ class Listagem extends React.Component {
 				body: [ ]
 			}
 		}
-		this.teste = this.teste.bind(this);
+		this.updateList = this.updateList.bind(this);
 	}
 	
-	teste(data){
+	updateList(data){
 		if(data.length > 0){
 			var body = data.map(function(obj, idx){
 				var date = new Date(obj.dataCadastro);
@@ -45,7 +45,7 @@ class Listagem extends React.Component {
         					},
         					{
                 				method: "PATCH",
-                				className: "fa " + (!obj.ativo ? "fa-play-circle-o" : "fa-pause"),
+                				className: "fa " + (!obj.ativo ? "fa-unlock" : "fa-lock"),
                 				title: (!obj.ativo ? "Ativar" : "Inativar")
         					},
         					{
@@ -62,18 +62,22 @@ class Listagem extends React.Component {
 	}
 	
 	componentDidMount(){
-	    var opa = requests(null, "GET", {
+	    requests(null, "GET", {
     		"Content-Type": "application/json",
     		"ApiKey": "3ada8f87cef4d41dbb385e41d0d55305b649161b"
-    	}, "http://contrato.local.com/api/pdv/", this.teste);
+    	}, "http://contrato.local.com/api/pdv/", this.updateList);
+	    /*var opa = requests(null, "GET", {
+    		"Content-Type": "application/json",
+    		"ApiKey": "3ada8f87cef4d41dbb385e41d0d55305b649161b"
+    	}, "http://contrato.local.com/api/pdv/", this.updateList);*/
 //	    var chaba = null;
 //	    this.setState({list: [1,2,3]});
 //  	  console.log("1 "+chaba);
-  	opa.then(function(value) {
-	    	return value;
-	    }, function(value) {
-	      // not called
-	    });
+//  	opa.then(function(value) {
+//	    	return value;
+//	    }, function(value) {
+//	      // not called
+//	    });
 	}
 	
 	render() {
