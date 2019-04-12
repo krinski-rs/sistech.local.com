@@ -1,17 +1,102 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom'
 import Title from "../../components/form/Title";
 import { requests } from '../../components/util/request';
+import { getCookie } from '../../components/util/auth';
 
 class Cadastro extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			arrayPais: [],
+			arrayEstado: [],
+			arrayCidade: []
+		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.updateArrayPais = this.updateArrayPais.bind(this);
+		this.updateArrayEstado = this.updateArrayEstado.bind(this);
+		this.buscaEstado = this.buscaEstado.bind(this);
+		this.updateArrayCidade = this.updateArrayCidade.bind(this);
+		this.buscaCidade = this.buscaCidade.bind(this);
 	}
+	
+	renderRedirect = () => {
+		return <Redirect to='/login' />
+	}
+
+	updateArrayPais(data){
+		this.setState({arrayPais: data});
+	}
+
+	updateArrayEstado(data){
+		this.setState({arrayEstado: data});
+	}
+
+	updateArrayCidade(data){
+		this.setState({arrayCidade: data});
+	}
+
+	componentDidMount() {
+		if(!this.props.user || !this.props.user.logged || (this.props.user.cookie !== getCookie())){
+			this.renderRedirect();
+		}
+		
+		requests(
+			null,
+			"GET", 
+			{
+				"Content-Type": "application/json",
+				"ApiKey": "3ada8f87cef4d41dbb385e41d0d55305b649161b"
+			},
+			"http://contrato.local.com/api/localidade/pais/",
+			this.updateArrayPais
+		);
+	}
+	
+	buscaEstado(event){
+		event.preventDefault();
+		if(parseInt(event.target.value) > 0){
+			requests(
+				null,
+				"GET", 
+				{
+					"Content-Type": "application/json",
+					"ApiKey": "3ada8f87cef4d41dbb385e41d0d55305b649161b"
+				},
+				"http://contrato.local.com/api/localidade/estado/?pais="+event.target.value,
+				this.updateArrayEstado
+			);
+			if(this.state.arrayEstado.length < 1){
+				this.updateArrayCidade([]);
+			}
+		}else{
+			this.updateArrayEstado([]);
+			this.updateArrayCidade([]);
+		}
+	}
+	
+	buscaCidade(event){
+		event.preventDefault();
+		if(parseInt(event.target.value) > 0){
+			requests(
+				null,
+				"GET", 
+				{
+					"Content-Type": "application/json",
+					"ApiKey": "3ada8f87cef4d41dbb385e41d0d55305b649161b"
+				},
+				"http://contrato.local.com/api/localidade/cidade/?estado="+event.target.value,
+				this.updateArrayCidade
+			);
+		}else{
+			this.updateArrayCidade([]);
+		}
+	}
+
 	handleSubmit(event) {
 		event.preventDefault();
 		if (!event.target.checkValidity()) {
-//			console.log("erro");
 			return false;
 		}
 		
@@ -29,7 +114,6 @@ class Cadastro extends React.Component {
 	    	 */
 	    	key = item[0];
 	    	value = item[1];
-//	    	console.log(item);
 	    	/*
 	    	 * Verifique se a chave já existe
 	    	 */
@@ -51,8 +135,8 @@ class Cadastro extends React.Component {
 	    	
 	    	item = entries.next().value;
 	    }
-//		console.log("OUT PUT");
-//		console.log(JSON.stringify(output));
+	    output["ativo"] = true;
+	    output["removido"] = false;
 	    requests(output, "POST", {
     		"Content-Type": "application/json",
     		"ApiKey": "3ada8f87cef4d41dbb385e41d0d55305b649161b"
@@ -104,19 +188,46 @@ class Cadastro extends React.Component {
 			                            <div className="col-lg-6">
 			                                <div className="form-group">
 			                                    <label>País</label>
-			                                    <input name="pais" className="form-control" />
+			                                    <select name="pais" className="form-control" onChange={ this.buscaEstado }>
+			                                    	<option>Selecione</option>
+			                                        {
+			                                        	this.state.arrayPais.length ?
+		                                        			this.state.arrayPais.map(function(obj, idx){
+			                        	                		return <option key={"PAIS" + idx } value={obj.id}>{ obj.nome }</option>
+			                        	                	})
+			                                        	: null
+			                                        }
+			                                    </select>
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-3">
 			                                <div className="form-group">
 			                                    <label>Estado</label>
-			                                    <input name="estado" className="form-control" />
+			                                    <select name="estado" className="form-control" onChange={ this.buscaCidade }>
+			                                    	<option>Selecione</option>
+			                                        {
+			                                        	this.state.arrayEstado.length ?
+			                                        			this.state.arrayEstado.map(function(obj, idx){
+			                        	                		return <option key={ "ESTADO"+idx } value={obj.id}>{ obj.sigla }</option>
+			                        	                	})
+			                                        	: null
+			                                        }
+			                                    </select>
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-6">
 			                                <div className="form-group">
 			                                    <label>Cidade</label>
-			                                    <input name="cidade" className="form-control" />
+			                                    <select name="cidade" className="form-control">
+			                                    	<option>Selecione</option>
+			                                        {
+			                                        	this.state.arrayCidade.length ?
+			                                        			this.state.arrayCidade.map(function(obj, idx){
+			                        	                		return <option key={ "CIDADE"+idx } value={obj.id}>{ obj.nome }</option>
+			                        	                	})
+			                                        	: null
+			                                        }
+			                                    </select>
 			                                </div>
 					                    </div>
 			                            <div className="col-lg-6">

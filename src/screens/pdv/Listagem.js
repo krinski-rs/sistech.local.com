@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import Title from "../../components/form/Title";
 import { requests } from '../../components/util/request';
 import Table from "../../components/table/Table";
@@ -20,24 +21,24 @@ class Listagem extends React.Component {
 		}
 		this.updateList = this.updateList.bind(this);
 	}
-	
+	//'/pdv/lista/"+obj.id+"'
 	updateList(data){
 		if(data.length > 0){
 			var body = data.map(function(obj, idx){
 				var date = new Date(obj.dataCadastro);
         		return [
-        			{text: obj.id},
+        			{text: <Link to={ '/pdv/'+obj.id }>{obj.id}</Link>},
         			{text: obj.nome},
         			{text: date.toLocaleDateString() + " " + date.toLocaleTimeString()},
         			{text: (obj.ativo?'Ativo':'Inativo')},
         			{actions: {
         				path: "/pdv/"+obj.id,
         				icons:[
-        					{
-                				method: "GET",
-                				className: "fa fa-eye",
-                				title: "Visualisar"
-        					},
+//        					{
+//                				method: "GET",
+//                				className: "fa fa-eye",
+//                				title: "Visualisar"
+//        					},
         					{
                 				method: "PUT",
                 				className: "fa fa-edit",

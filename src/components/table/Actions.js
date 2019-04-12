@@ -9,7 +9,6 @@ class Actions extends Component {
 	
 	handleClick(event) {
 		event.preventDefault();
-		console.log("Actions Click!!!");
 		if(this.props.updateParent){
 			this.props.updateParent();
 		}
