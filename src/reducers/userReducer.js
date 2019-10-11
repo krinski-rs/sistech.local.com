@@ -5,9 +5,10 @@ const initialState = { };
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.USER_CREATE: {
-            console.log([state, action.payload]);
+            console.log(action);
             return {
-                teste: 123
+                teste: 123,
+                error: false
             };
         }
         default: {
