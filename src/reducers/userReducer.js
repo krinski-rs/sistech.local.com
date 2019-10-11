@@ -1,6 +1,10 @@
 import * as actionTypes from '../actions';
 
-const initialState = { };
+const initialState = {
+    user: null,
+    error: true,
+    send: false
+};
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -8,7 +12,8 @@ const userReducer = (state = initialState, action) => {
             console.log(action);
             return {
                 teste: 123,
-                error: false
+                error: true,
+                send: true
             };
         }
         default: {

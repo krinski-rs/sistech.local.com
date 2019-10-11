@@ -1,11 +1,6 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-
 import { colors } from '@material-ui/core';
-const theme = createMuiTheme({
-    palette: {
-        type: 'dark',
-    },
-});
+
+import theme from '../../../themes'
 
 const useStyles = {
     root: {
@@ -24,7 +19,7 @@ const useStyles = {
         marginTop: theme.spacing(3)
     },
     saveButton: {
-        color: "#FFFFFF",
+        color: theme.palette.white,
         backgroundColor: colors.green[600],
         '&:hover': {
             backgroundColor: colors.green[900]

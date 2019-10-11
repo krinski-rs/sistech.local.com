@@ -21,6 +21,7 @@ import { Page } from '../../../components';
 import { userCreate } from '../../../actions';
 
 import SuccessSnackbar from './SuccessSnackbar';
+import ErrorSnackbar from './ErrorSnackbar';
 import Header from './Header';
 import useStyles from './style';
 
@@ -37,7 +38,7 @@ class Create extends React.Component {
                 isActive: true
             },
             calendarOpen: false,
-            openSnackbar: false
+            openSnackbar: true
         };
     }
 
@@ -86,7 +87,7 @@ class Create extends React.Component {
         });
     }
 
-    handleCloseSnackbar = () => {
+    handleSnackbarClose = () => {
         this.setState({
             openSnackbar: false
         });
@@ -238,10 +239,11 @@ class Create extends React.Component {
                                 </Button>
                             </CardActions>
                         </form>
-                        <SuccessSnackbar
-                            onClose={this.handleSnackbarClose}
-                            open={this.state.openSnackbar}
-                        />
+                        {
+                            this.props.user.send && !this.props.user.error
+                            ? <SuccessSnackbar onClose={this.handleSnackbarClose} open={this.state.openSnackbar} />
+                            : this.props.user.send ? <ErrorSnackbar onClose={this.handleSnackbarClose} open={this.state.openSnackbar} /> : null
+                        }
                     </Card>
                 </div>
             </Page>
@@ -317,9 +319,9 @@ const Create = props => {
       const handleCalendarClose = () => {
         setCalendarTrigger(false);
       };
-      const calendarOpen = Boolean(calendarTrigger);
-      const calendarMinDate =
-        calendarTrigger === 'expirationDate'
+      const calendarOpen = Boolean(calendarTriggerSuccessSnackbar);
+      const calendarMinDate =SuccessSnackbar
+        calendarTrigger === 'expirationDate'SuccessSnackbar
           ? moment()
           : (values.expirationDate ? moment(values.expirationDate).add(1, 'day') : null);
       const calendarValue = values[calendarTrigger];
