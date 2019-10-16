@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions';
+import { requests } from '../utils/requests';
 
 const initialState = {
     user: null,
@@ -6,15 +7,13 @@ const initialState = {
     send: false
 };
 
-const userReducer = (state = initialState, action) => {
+const userReducer = async (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.USER_CREATE: {
-            console.log(action);
-            return {
-                teste: 123,
-                error: true,
-                send: true
-            };
+            let retorno = await requests(action.payload, "POST", null, 'http://sistech-api.local.com/user/', null);
+            console.log("RETORNO");
+            console.log(retorno);
+            return retorno;
         }
         default: {
             return state;

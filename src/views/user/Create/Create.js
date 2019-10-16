@@ -40,16 +40,21 @@ class Create extends React.Component {
             calendarOpen: false,
             openSnackbar: true
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit = (event) => {
+    async handleSubmit(event) {
         event.preventDefault();
         var valid = this.state.values.password && this.state.values.password === this.state.values.confirm;
         if (!valid) {
             return false;
         }
-        // console.log(this.props);
-        this.props.dispatch(userCreate(this.state.values));
+        console.log("ANTES handleSubmit");
+        console.log(this.props.user);
+        await this.props.dispatch(userCreate(this.state.values));
+        console.log("handleSubmit");
+        console.log(this.props.user);
+
         // setOpenSnackbar(true);
     }
 
@@ -97,6 +102,8 @@ class Create extends React.Component {
         const classes = this.props.classes;
         const { className, rest } = this.props;
         const calendarValue = this.state.values.expirationDate;
+        console.log('render');
+        console.log(this.props.user);
         return (
             <Page
                 className={classes.root}
