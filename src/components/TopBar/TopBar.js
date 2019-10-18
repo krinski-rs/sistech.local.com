@@ -1,10 +1,7 @@
-/* eslint-disable no-unused-vars */
-import React, {useRef, useState} from 'react';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import withStyles from "@material-ui/core/styles/withStyles";
-import { Link as RouterLink } from 'react-router-dom';
-
 import {
     AppBar,
     Badge,
@@ -21,11 +18,12 @@ import {
     ListItemText,
     ClickAwayListener
 } from '@material-ui/core';
-import LockIcon from '@material-ui/icons/LockOutlined';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import withStyles from "@material-ui/core/styles/withStyles";
+
 import useStyles from './style';
 class TopBar extends React.Component {
     constructor(props) {
@@ -37,56 +35,46 @@ class TopBar extends React.Component {
         this.notificationsRef = React.createRef();
     }
 
-    setOpenSearchPopover(state){
-        this.setState({
-            openSearchPopover: !state.openSearchPopover
-        })
+    handleLogout = () => {
+        // history.push('/auth/login');
+        // dispatch(logout());
     }
 
-    render() {
-        const { onOpenNavBarMobile } = this.props;
-        const classes = this.props.classes;
-        // const searchRef = React.createRef();
-        // const notificationsRef = React.createRef();
-        // const [pricingModalOpen, setPricingModalOpen] = useState(false);
-        // const [openSearchPopover, setOpenSearchPopover] = useState(false);
-        // const [searchValue, setSearchValue] = useState('');
-        // const [notifications, setNotifications] = useState([]);
-        // const [openNotifications, setOpenNotifications] = useState(false);
-    
-        // const handleSearchChange = event => {
-        //     setSearchValue(event.target.value);
-    
-        //     if (event.target.value) {
-        //         if (!openSearchPopover) {
-        //             setOpenSearchPopover(true);
-        //         }
-        //     } else {
-        //         setOpenSearchPopover(false);
+    handlePricingOpen = () => {
+        // setPricingModalOpen(true);
+    }
+
+    handlePricingClose = () => {
+        // setPricingModalOpen(false);
+    }
+
+    handleNotificationsOpen = () => {
+        // setOpenNotifications(true);
+    }
+
+    handleNotificationsClose = () => {
+        // setOpenNotifications(false);
+    }
+
+    handleSearchChange = event => {
+        // setSearchValue(event.target.value);
+
+        // if (event.target.value) {
+        //     if (!openSearchPopover) {
+        //         setOpenSearchPopover(true);
         //     }
-        // };
-
-        // const handleSearchPopverClose = () => {
+        // } else {
         //     setOpenSearchPopover(false);
-        // };
+        // }
+    };
 
-        // const handlePricingOpen = () => {
-        //     setPricingModalOpen(true);
-        // };
+    handleSearchPopverClose = () => {
+        // setOpenSearchPopover(false);
+    };
 
-        // const handleNotificationsOpen = () => {
-        //     setOpenNotifications(true);
-        // };
 
-        // const handleLogout = () => {
-        //     // history.push('/auth/login');
-        //     // dispatch(logout());
-        // };
-            
-        const handleSearchPopverClose = () => {
-            this.setOpenSearchPopover(false);
-        };
-
+    render() {
+        const { onOpenNavBarMobile, className, classes, ...rest } = this.props;
         const popularSearches = [
             'Devias React Dashboard',
             'Devias',
@@ -97,7 +85,8 @@ class TopBar extends React.Component {
 
         return (
             <AppBar
-                className={clsx(classes.root, this.props.className)}
+                {...rest}
+                className={clsx(classes.root, className)}
                 color="primary"
             >
                 <Toolbar>
@@ -117,17 +106,18 @@ class TopBar extends React.Component {
                             <Input
                                 className={classes.searchInput}
                                 disableUnderline
+                                onChange={this.handleSearchChange}
                                 placeholder="Search people &amp; places"
+                                value={""}
                             />
                         </div>
                         <Popper
                             anchorEl={this.searchRef.current}
                             className={classes.searchPopper}
-                            open={this.state.openSearchPopover}
-
+                            open={false}
                             transition
                         >
-                            <ClickAwayListener onClickAway={handleSearchPopverClose}>
+                            <ClickAwayListener onClickAway={this.handleSearchPopverClose}>
                                 <Paper
                                     className={classes.searchPopperContent}
                                     elevation={3}
@@ -137,6 +127,7 @@ class TopBar extends React.Component {
                                             <ListItem
                                                 button
                                                 key={search}
+                                                onClick={this.handleSearchPopverClose}
                                             >
                                                 <ListItemIcon>
                                                     <SearchIcon />
@@ -148,22 +139,16 @@ class TopBar extends React.Component {
                                 </Paper>
                             </ClickAwayListener>
                         </Popper>
-                        <Button
-                            className={classes.trialButton}
-                            variant="contained"
-                        >
-                            <LockIcon className={classes.trialIcon} />
-                            Trial expired
-                    </Button>
                     </Hidden>
                     <Hidden mdDown>
                         <IconButton
                             className={classes.notificationsButton}
                             color="inherit"
+                            onClick={this.handleNotificationsOpen}
                             ref={this.notificationsRef}
                         >
                             <Badge
-                                badgeContent={1}
+                                badgeContent={4}
                                 classes={{ badge: classes.notificationsBadge }}
                                 variant="dot"
                             >
@@ -173,6 +158,7 @@ class TopBar extends React.Component {
                         <Button
                             className={classes.logoutButton}
                             color="inherit"
+                            onClick={this.handleLogout}
                         >
                             <InputIcon className={classes.logoutIcon} />
                             Sign out
@@ -190,11 +176,10 @@ class TopBar extends React.Component {
             </AppBar>
         );
     }
-};
+}
 
 TopBar.propTypes = {
     className: PropTypes.string,
-    onOpenNavBarMobile: PropTypes.func,
+    onOpenNavBarMobile: PropTypes.func.isRequired
 };
-
 export default withStyles(useStyles)(TopBar);

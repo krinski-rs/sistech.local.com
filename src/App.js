@@ -16,6 +16,7 @@ import './assets/scss/index.scss?v=1.7.0';
 
 const history = createBrowserHistory();
 const store = configureStore();
+
 const App = () => {
     return (
         <StoreProvider store={store}>

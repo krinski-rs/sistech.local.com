@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import sessionReducer from './sessionReducer';
-import userReducer from './userReducer';
+// import thunkData from './thunkReducer';
+import login from './loginReducer';
 
 const rootReducer = combineReducers({
-  session: sessionReducer,
-  user: userReducer
+    // thunkData,
+    login
 });
 
 export default rootReducer;

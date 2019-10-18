@@ -1,4 +1,3 @@
-
 const useStyles = {
     root: {
         height: '100%',
@@ -27,5 +26,4 @@ const useStyles = {
         flex: '1 1 auto'
     }
 };
-
 export default useStyles;

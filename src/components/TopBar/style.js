@@ -1,6 +1,5 @@
-
-import { colors } from '@material-ui/core';
 import theme from '../../themes';
+import { colors } from '@material-ui/core';
 
 const useStyles = {
     root: {
@@ -45,8 +44,7 @@ const useStyles = {
         }
     },
     trialIcon: {
-        marginRight: theme.spacing(1),
-        color: theme.palette.white
+        marginRight: theme.spacing(1)
     },
     notificationsButton: {
         marginLeft: theme.spacing(1)
@@ -61,4 +59,5 @@ const useStyles = {
         marginRight: theme.spacing(1)
     }
 };
+
 export default useStyles;
