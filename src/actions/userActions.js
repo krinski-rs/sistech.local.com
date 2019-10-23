@@ -2,20 +2,21 @@ import {
     FETCHING_USERS,
     FETCHING_USERS_FAILURE,
     FETCHING_USERS_SUCCESS,
+    SAVE_USERS,
     SAVE_USER_SUCCESS,
     SAVE_USER_FAILURE
 } from './types';
-import * as userApi from '../api/UserApi';
+import userApi from '../api/UserApi';
 
 export function fetchingUser() {
     return {
-        type: LOGIN_USER
+        type: FETCHING_USERS
     }
 }
 
 export const fetchingUserSuccess = (users) => ({
     type: FETCHING_USERS_SUCCESS,
-    user
+    users
 });
 
 export const fetchingUserFailure = (error) => ({
@@ -23,39 +24,54 @@ export const fetchingUserFailure = (error) => ({
     error: error
 });
 
+
+export function saveUser() {
+    return {
+        type: SAVE_USERS
+    }
+}
+
+export const saveUserSuccess = (user) => ({
+    type: SAVE_USER_SUCCESS,
+    user
+});
+
+export const saveUserFailure = (error) => ({
+    type: SAVE_USER_FAILURE,
+    error: error
+});
+
+
 export const searchUser = (parameters) => {
     return async dispatch => {
         dispatch(fetchingUser());
-        let retorno = await loginApi.login(username, password);
-        console.log('ANTES');
-        console.log(retorno);
+        let retorno = await userApi.searchUsers(parameters);
         if(retorno.ok){
-            // dispatch(loginSuccess(Promise.resolve(retorno.user)));
-            // console.log(retorno);
-            retorno.user.then(user=>{
-                console.log('ANTES 1');
-                dispatch(loginSuccess(user));
-                console.log('ANTES 2');
+            retorno.users.then(users=>{
+                dispatch(fetchingUserSuccess(users));
             });
         }else{
             retorno.error.then(error=>{
-                console.log('ANTES 1');
-                dispatch(loginFailure(error));
-                console.log('ANTES 2');
+                dispatch(fetchingUserFailure(error));
             });
-            // dispatch(loginFailure(Promise.resolve(retorno.error)));
         }
-        // return loginApi.login(username, password)
-        //     .then(retorno => {
-        //         console.log(retorno);
-        //         if(retorno.ok){
-        //             dispatch(loginSuccess(retorno.user));
-        //         }else{
-        //             dispatch(loginFailure(retorno.error));
-        //         }
-        //     })
-        //     .catch(error => {
-        //         dispatch(loginFailure(error));
-        //     });
+    };
+};
+
+
+export const createUser = (parameters) => {
+    return async dispatch => {
+        dispatch(saveUser());
+        let retorno = await userApi.createUsers(parameters);
+        console.log(retorno);
+        if(retorno.ok){
+            retorno.user.then(user=>{
+                dispatch(saveUserSuccess(user));
+            });
+        }else{
+            retorno.error.then(error=>{
+                dispatch(saveUserFailure(error));
+            });
+        }
     };
 };

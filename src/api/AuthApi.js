@@ -36,18 +36,6 @@ class AuthApi {
                 error: error.message
             }
 	    });
-// .then((response) => {
-// 	    	if(response.ok){
-// 	    		return response.json();
-// 	    	}
-// 			return response.json();
-// 	    }).then((data) => {
-// 	    	return data;
-// 	    }).catch((error) => {
-// 	    	console.log("error");
-//             console.log(error);
-//             return error;
-//         });
     }
 }
 

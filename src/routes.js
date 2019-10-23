@@ -37,6 +37,11 @@ const routes = [
                 path: '/user',
                 exact: true,
                 component: lazy(() => import('./views/user/UserList'))
+            },
+            {
+                path: '/user/create',
+                exact: true,
+                component: lazy(() => import('./views/user/UserCreate'))
             }
         ]
     }

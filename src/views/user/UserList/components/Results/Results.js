@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -23,11 +22,11 @@ import {
 } from '@material-ui/core';
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import { Label, GenericMoreButton, TableEditBar } from '../../../../../components';
+import { Label, TableEditBar } from '../../../../../components';
+import GenericMoreButton from '../GenericMoreButton';
 import useStyles from './style';
 class Results extends Component
 {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -60,7 +59,7 @@ class Results extends Component
 
     handleSelectAll = event => {
         const selectedOrders = event.target.checked
-            ? this.props.orders.map(order => order.id)
+            ? this.props.users.map(user => user.id)
             : [];
 
         this.setState({
@@ -81,19 +80,13 @@ class Results extends Component
     }
 
     render() {
-        const { className, orders, classes, ...rest } = this.props;
-
-        // const [selectedOrders, setSelectedOrders] = useState([]);
-        // const [page, setPage] = useState(0);
-        // const [rowsPerPage, setRowsPerPage] = useState(10);
-
-        const paymentStatusColors = {
+        const { className, users, classes, ...rest } = this.props;
+        const activeStatusColors = {
             canceled: colors.grey[600],
             pending: colors.orange[600],
             completed: colors.green[600],
             rejected: colors.red[600]
         };
-
         return (
             <div
                 {...rest}
@@ -104,8 +97,8 @@ class Results extends Component
                     gutterBottom
                     variant="body2"
                 >
-                    {orders.length} Records found. Page {this.state.page + 1} of{' '}
-                    {Math.ceil(orders.length / this.state.rowsPerPage)}
+                    {this.props.users.length} Records found. Page {this.state.page + 1} of{' '}
+                    {Math.ceil(this.props.users.length / this.state.rowsPerPage)}
                 </Typography>
                 <Card>
                     <CardHeader
@@ -121,73 +114,77 @@ class Results extends Component
                                         <TableRow>
                                             <TableCell padding="checkbox">
                                                 <Checkbox
-                                                    checked={this.state.selectedOrders.length === orders.length}
+                                                    checked={this.state.selectedOrders.length === users.length}
                                                     color="primary"
                                                     indeterminate={
                                                         this.state.selectedOrders.length > 0 &&
-                                                        this.state.selectedOrders.length < orders.length
+                                                        this.state.selectedOrders.length < users.length
                                                     }
                                                     onChange={this.handleSelectAll}
                                                 />
                                             </TableCell>
-                                            <TableCell>Ref</TableCell>
-                                            <TableCell>Customer</TableCell>
-                                            <TableCell>Method</TableCell>
-                                            <TableCell>Total</TableCell>
+                                            <TableCell>ID</TableCell>
+                                            <TableCell>Name</TableCell>
+                                            <TableCell>Usename</TableCell>
                                             <TableCell>Status</TableCell>
+                                            <TableCell>Date Record</TableCell>
+                                            <TableCell>Expiration Date</TableCell>
                                             <TableCell align="right">Actions</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {orders.slice(0, this.state.rowsPerPage).map(order => (
+                                        {
+                                            this.props.users.map(user => (
                                             <TableRow
-                                                key={order.id}
-                                                selected={this.state.selectedOrders.indexOf(order.id) !== -1}
+                                                key={user.id}
+                                                selected={this.state.selectedOrders.indexOf(user.id) !== -1}
                                             >
                                                 <TableCell padding="checkbox">
                                                     <Checkbox
-                                                        checked={this.state.selectedOrders.indexOf(order.id) !== -1}
+                                                        checked={this.state.selectedOrders.indexOf(user.id) !== -1}
                                                         color="primary"
-                                                        onChange={event => this.handleSelectOne(event, order.id)}
-                                                        value={this.state.selectedOrders.indexOf(order.id) !== -1}
+                                                        onChange={event => this.handleSelectOne(event, user.id)}
+                                                        value={this.state.selectedOrders.indexOf(user.id) !== -1}
                                                     />
                                                 </TableCell>
                                                 <TableCell>
-                                                    {order.payment.ref}
-                                                    <Typography variant="body2">
-                                                        {moment(order.created_at).format(
-                                                            'DD MMM YYYY | hh:mm'
-                                                        )}
-                                                    </Typography>
+                                                    {user.id}
                                                 </TableCell>
 
-                                                <TableCell>{order.customer.name}</TableCell>
-                                                <TableCell>{order.payment.method}</TableCell>
+                                                <TableCell>{user.name}</TableCell>
+                                                <TableCell>{user.username}</TableCell>
                                                 <TableCell>
-                                                    {order.payment.currency}
-                                                    {order.payment.total}
+                                                    {user.isActive ? <Label
+                                                        color={activeStatusColors['completed']}
+                                                        variant="outlined"
+                                                    >Activated</Label> : <Label
+                                                        color={activeStatusColors['canceled']}
+                                                        variant="outlined"
+                                                    >deactivated</Label>}
                                                 </TableCell>
                                                 <TableCell>
-                                                    <Label
-                                                        color={paymentStatusColors[order.payment.status]}
-                                                        variant="outlined"
-                                                    >
-                                                        {order.payment.status}
-                                                    </Label>
+                                                    {
+                                                        new Date(Date.parse(user.recordingDate)).toLocaleString()
+                                                    }
+                                                </TableCell>
+                                                <TableCell>
+                                                    {
+                                                        user.expirationDate ? new Date(Date.parse(user.expirationDate)).toLocaleString() : null
+                                                    }
                                                 </TableCell>
                                                 <TableCell align="right">
                                                     <Button
                                                         color="primary"
                                                         component={RouterLink}
                                                         size="small"
-                                                        to={'/management/orders/1'}
+                                                        to={'/management/users/1'}
                                                         variant="outlined"
                                                     >
                                                         View
                                                     </Button>
                                                 </TableCell>
                                             </TableRow>
-                                        ))}
+                                                        ))}
                                     </TableBody>
                                 </Table>
                             </div>
@@ -196,7 +193,7 @@ class Results extends Component
                     <CardActions className={classes.actions}>
                         <TablePagination
                             component="div"
-                            count={orders.length}
+                            count={users.length}
                             onChangePage={this.handleChangePage}
                             onChangeRowsPerPage={this.handleChangeRowsPerPage}
                             page={this.state.page}
@@ -213,11 +210,11 @@ class Results extends Component
 
 Results.propTypes = {
     className: PropTypes.string,
-    orders: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired
 };
 
 Results.defaultProps = {
-    orders: []
+    users: []
 };
 
 export default withStyles(useStyles)(Results);

@@ -58,7 +58,17 @@ const navigationConfig = [
             {
                 title: 'User',
                 href: '/user',
-                icon: PeopleIcon
+                icon: DashboardIcon,
+                children: [
+                    {
+                        title: 'List',
+                        href: '/user'
+                    },
+                    {
+                        title: 'Create',
+                        href: '/user/create'
+                    }
+                ]
             },
             {
                 title: 'Management',
