@@ -15,13 +15,12 @@ import {
     Switch,
     TextField,
     Typography,
+    Snackbar
 } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
-import { Page } from '../../../components';
+import { Page, SnackbarContentWrapper } from '../../../components';
 import * as userActions from '../../../actions/userActions';
 
-import SuccessSnackbar from './components/SuccessSnackbar';
-import ErrorSnackbar from './components/ErrorSnackbar';
 import Header from './components/Header';
 import useStyles from './style';
 
@@ -42,14 +41,46 @@ class UserCreate extends React.Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    componentWillUnmount(){
+        this.setState({
+            values: {
+                name: '',
+                expirationDate: null,
+                email: '',
+                password: '',
+                confirm: '',
+                isActive: true
+            },
+            calendarOpen: false,
+            openSnackbar: true
+        });
+        this.props.actions.resetUser();
+    }
+
+    UNSAFE_componentWillUpdate(){
+        if(!this.props.send && this.props.user){
+            this.setState({
+                values: {
+                    name: '',
+                    expirationDate: null,
+                    email: '',
+                    password: '',
+                    confirm: '',
+                    isActive: true
+                },
+                calendarOpen: false,
+                openSnackbar: true
+            });
+            this.props.actions.resetUser();
+        }
+    }
 
     async handleSubmit(event) {
         event.preventDefault();
-        var valid = this.state.values.password && this.state.values.password === this.state.values.confirm;
-        if (!valid) {
-            return false;
-        }
         this.props.actions.createUser(this.state.values);
+        this.setState({
+            openSnackbar: true
+        });
     }
 
     handleChange = (event) => {
@@ -76,9 +107,7 @@ class UserCreate extends React.Component {
         });
     }
 
-    handleChangeCalendar = () => {
-
-    }
+    handleChangeCalendar = () => { }
 
     handleCloseCalendar = () => {
         this.setState({
@@ -96,6 +125,8 @@ class UserCreate extends React.Component {
         const classes = this.props.classes;
         const { className, rest } = this.props;
         const calendarValue = this.state.values.expirationDate;
+        const openSnack = (!this.props.send && this.props.user) ? true : this.props.error && this.props.error.message ? true : false;
+
         return (
             <Page
                 className={classes.root}
@@ -238,13 +269,25 @@ class UserCreate extends React.Component {
                                 </Button>
                             </CardActions>
                         </form>
-                        { console.log(this.props) }
-                        { console.log((!this.props.send && this.props.user)) }
-                        { console.log((this.props.erro && this.props.erro.message)) }
                         {
-                            (!this.props.send && this.props.user)
-                            ? <SuccessSnackbar onClose={this.handleSnackbarClose} open={this.state.openSnackbar} text={"Successfully saved!"} />
-                            : this.props.error && this.props.error.message ? <ErrorSnackbar onClose={this.handleSnackbarClose} open={this.state.openSnackbar} text={this.props.error.message} /> : null
+                            openSnack ?
+                            <Snackbar
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'center'
+                                }}
+                                open={this.state.openSnackbar}
+                                autoHideDuration={6000}
+                                onClose={this.handleSnackbarClose}
+                            >
+                                <SnackbarContentWrapper
+                                    variant={ !this.props.send && this.props.user ? "success" : "error" }
+                                    className={classes.leftIcon}
+                                    message={ this.props.error && this.props.error.message ? this.props.error.message : "User saved successfully."}
+                                    onClose={this.handleSnackbarClose}
+                                />
+                            </Snackbar>
+                            : null
                         }
                     </Card>
                 </div>
@@ -256,7 +299,6 @@ class UserCreate extends React.Component {
 
 
 function mapStateToProps(state, ownProps) {
-    console.log(state);
     return {
         user: state.users.user,
         error: state.users.error || {},

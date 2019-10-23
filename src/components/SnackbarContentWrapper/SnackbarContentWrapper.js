@@ -1,12 +1,31 @@
+import React, { Component } from 'react';
+import clsx from 'clsx';
 
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import WarningIcon from '@material-ui/icons/Warning';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import { withStyles } from '@material-ui/core/styles';
+
+
+import useStyles from './style';
+
+const variantIcon = {
+	success: CheckCircleIcon,
+	warning: WarningIcon,
+	error: ErrorIcon,
+	info: InfoIcon
+};
 
 
 class SnackbarContentWrapper extends Component
 {
 
     render() {
-        const classes = useStyles1();
-        const { className, message, onClose, variant, ...other } = props;
+        const { className, message, onClose, variant, classes, ...other } = this.props;
         const Icon = variantIcon[variant];
 
         return (
@@ -29,4 +48,4 @@ class SnackbarContentWrapper extends Component
         );
     }
 }
-export default withStyles(useStyles)(UserCreate);
+export default withStyles(useStyles)(SnackbarContentWrapper);

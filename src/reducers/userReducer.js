@@ -27,6 +27,9 @@ export default function userReducer(state = initialState, action) {
         case types.SAVE_USER_FAILURE:
             state = Object.assign({}, { user: null, error: action.error, send: false });
             break;
+        case types.SAVE_USER_RESET:
+            state = Object.assign({}, state, { user: null, error: {}, send: false });
+            break;
         default:
             break;
     }

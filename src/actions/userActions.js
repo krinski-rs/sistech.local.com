@@ -4,7 +4,8 @@ import {
     FETCHING_USERS_SUCCESS,
     SAVE_USERS,
     SAVE_USER_SUCCESS,
-    SAVE_USER_FAILURE
+    SAVE_USER_FAILURE,
+    SAVE_USER_RESET
 } from './types';
 import userApi from '../api/UserApi';
 
@@ -24,10 +25,15 @@ export const fetchingUserFailure = (error) => ({
     error: error
 });
 
-
 export function saveUser() {
     return {
         type: SAVE_USERS
+    }
+}
+
+export function saveUserReset() {
+    return {
+        type: SAVE_USER_RESET
     }
 }
 
@@ -58,12 +64,17 @@ export const searchUser = (parameters) => {
     };
 };
 
+export const resetUser = () => {
+    return async dispatch => {
+        dispatch(saveUserReset());
+    };
+};
+
 
 export const createUser = (parameters) => {
     return async dispatch => {
         dispatch(saveUser());
         let retorno = await userApi.createUsers(parameters);
-        console.log(retorno);
         if(retorno.ok){
             retorno.user.then(user=>{
                 dispatch(saveUserSuccess(user));

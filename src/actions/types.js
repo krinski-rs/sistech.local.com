@@ -5,6 +5,7 @@ export const FETCHING_USERS_FAILURE = 'FETCHING_USERS_FAILURE';
 export const SAVE_USERS             = 'SAVE_USERS';
 export const SAVE_USER_SUCCESS      = 'SAVE_USER_SUCCESS';
 export const SAVE_USER_FAILURE      = 'SAVE_USER_FAILURE';
+export const SAVE_USER_RESET        = 'SAVE_USER_RESET';
 
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';

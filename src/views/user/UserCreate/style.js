@@ -22,6 +22,10 @@ const useStyles = {
         '&:hover': {
             backgroundColor: colors.green[900]
         }
-    }
+    },
+    leftIcon: {
+		marginRight: theme.spacing(1)
+	},
+
 };
 export default useStyles;
