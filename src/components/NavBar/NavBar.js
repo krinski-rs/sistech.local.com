@@ -22,16 +22,16 @@ class NavBar extends Component
                         alt="Person"
                         className={classes.avatar}
                         component={RouterLink}
-                        src={this.props.session.user.avatar}
-                        to={"/user/" + this.props.session.user.id + "/timeline"}
+                        src={this.props.session.avatar}
+                        to={"/user/" + this.props.session.id + "/timeline"}
                     />
                     <Typography
                         className={classes.name}
                         variant="h4"
                     >
-                        {this.props.session.user.name}
+                        {this.props.session.name}
                     </Typography>
-                    <Typography variant="body2">{this.props.session.user.bio}</Typography>
+                    <Typography variant="body2">{this.props.session.bio}</Typography>
                 </div>
                 <Divider className={classes.divider} />
                 <nav className={classes.navigation}>

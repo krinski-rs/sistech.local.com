@@ -5,13 +5,14 @@ const encodeGetParams = p =>
   Object.entries(p).map(kv => kv.map(encodeURIComponent).join("=")).join("&");
 
 
-class UserApi {
-    static searchUsers(parameters = null) {
-        var url = 'http://sistech-api.local.com/users/';
+class ServiceApi {
+    static searchService(parameters = null) {
+        var url = 'http://sistech-api.local.com/service/';
         if(parameters){
             let params = encodeGetParams(parameters);
             url = url + '?' + params;
         }
+        console.log(url);
         return fetch(url, {
             method: 'GET',
             credentials: 'include',
@@ -23,7 +24,7 @@ class UserApi {
             if (response.ok) {
                 return {
                     ok: true,
-                    users: response.json()
+                    services: response.json()
                 };
             }
             return {
@@ -40,8 +41,8 @@ class UserApi {
         });
     }
 
-    static createUsers(parameters) {
-        var url = 'http://sistech-api.local.com/users/';
+    static createService(parameters) {
+        var url = 'http://sistech-api.local.com/service/';
         return fetch(url, {
             method: 'POST',
             credentials: 'include',
@@ -54,7 +55,7 @@ class UserApi {
             if (response.ok) {
                 return {
                     ok: true,
-                    user: response.json()
+                    service: response.json()
                 };
             }
             return {
@@ -72,4 +73,4 @@ class UserApi {
     }
 }
 
-export default UserApi;
+export default ServiceApi;

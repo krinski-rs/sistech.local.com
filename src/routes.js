@@ -34,6 +34,16 @@ const routes = [
         component: Home,
         routes: [
             {
+                path: '/service',
+                exact: true,
+                component: lazy(() => import('./views/service/ServiceList'))
+            },
+            {
+                path: '/service/create',
+                exact: true,
+                component: lazy(() => import('./views/service/ServiceCreate'))
+            },
+            {
                 path: '/user',
                 exact: true,
                 component: lazy(() => import('./views/user/UserList'))

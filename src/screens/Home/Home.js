@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react';
-// import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -25,6 +25,7 @@ import PersonIcon from '@material-ui/icons/PersonOutlined';
 import ReceiptIcon from '@material-ui/icons/ReceiptOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
+import BuildIcon from '@material-ui/icons/BuildOutlined';
 
 import * as loginActions from '../../actions/loginActions';
 import { TopBar, NavBar, Label } from '../../components';
@@ -56,9 +57,24 @@ const navigationConfig = [
                 ]
             },
             {
-                title: 'User',
+                title: 'Service',
+                href: '/service',
+                icon: BuildIcon,
+                children: [
+                    {
+                        title: 'List',
+                        href: '/service'
+                    },
+                    {
+                        title: 'Create',
+                        href: '/service/create'
+                    }
+                ]
+            },
+            {
+                title: 'Users',
                 href: '/user',
-                icon: DashboardIcon,
+                icon: PeopleIcon,
                 children: [
                     {
                         title: 'List',
@@ -302,9 +318,9 @@ class Home extends Component
     };
 
     render() {
-        // if (!this.props.user || !this.props.user.id) {
-        //     return <Redirect to='/auth/login' />
-        // }
+        if (!this.props.user || !this.props.user.id) {
+            return <Redirect to='/auth/login' />
+        }
         const { classes, route } = this.props;
         return (
             <div className={classes.root}>
@@ -318,7 +334,7 @@ class Home extends Component
                         onMobileClose={this.handleNavBarMobileClose}
                         openMobile={this.state.openNavBarMobile}
                         navigationConfig={navigationConfig}
-                        session={{ user: { name: "Reinaldo Krinski", id: 312, avatar: "" } }}
+                        session={ this.props.user }
                     />
                     <main className={classes.content}>
                         <Suspense fallback={<LinearProgress />}>
