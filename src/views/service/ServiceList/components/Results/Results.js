@@ -30,40 +30,40 @@ class Results extends Component
     constructor(props) {
         super(props);
         this.state = {
-            selectedOrders: [],
+            selectedService: [],
             page: 0,
             rowsPerPage: 10
         };
     }
 
     handleSelectOne = (event, id) => {
-        const selectedIndex = this.state.selectedOrders.indexOf(id);
+        const selectedIndex = this.state.selectedService.indexOf(id);
         let newSelectedOrders = [];
 
         if (selectedIndex === -1) {
-            newSelectedOrders = newSelectedOrders.concat(this.state.selectedOrders, id);
+            newSelectedOrders = newSelectedOrders.concat(this.state.selectedService, id);
         } else if (selectedIndex === 0) {
-            newSelectedOrders = newSelectedOrders.concat(this.state.selectedOrders.slice(1));
-        } else if (selectedIndex === this.state.selectedOrders.length - 1) {
-            newSelectedOrders = newSelectedOrders.concat(this.state.selectedOrders.slice(0, -1));
+            newSelectedOrders = newSelectedOrders.concat(this.state.selectedService.slice(1));
+        } else if (selectedIndex === this.state.selectedService.length - 1) {
+            newSelectedOrders = newSelectedOrders.concat(this.state.selectedService.slice(0, -1));
         } else if (selectedIndex > 0) {
             newSelectedOrders = newSelectedOrders.concat(
-                this.state.selectedOrders.slice(0, selectedIndex),
-                this.state.selectedOrders.slice(selectedIndex + 1)
+                this.state.selectedService.slice(0, selectedIndex),
+                this.state.selectedService.slice(selectedIndex + 1)
             );
         }
         this.setState({
-            selectedOrders: newSelectedOrders
+            selectedService: newSelectedOrders
         });
     }
 
     handleSelectAll = event => {
-        const selectedOrders = event.target.checked
-            ? this.props.users.map(user => user.id)
+        const selectedService = event.target.checked
+            ? this.props.services.data.map(service => service.id)
             : [];
 
         this.setState({
-            selectedOrders: selectedOrders
+            selectedService: selectedService
         });
     }
 
@@ -87,7 +87,7 @@ class Results extends Component
             completed: colors.green[600],
             rejected: colors.red[600]
         };
-
+        const data = this.props.services.data ? this.props.services.data : [];
         return (
             <div
                 {...rest}
@@ -98,8 +98,8 @@ class Results extends Component
                     gutterBottom
                     variant="body2"
                 >
-                    {this.props.users.length} Records found. Page {this.state.page + 1} of{' '}
-                    {Math.ceil(this.props.users.length / this.state.rowsPerPage)}
+                    {this.props.services.total} Records found. Page {this.state.page + 1} of{' '}
+                    {Math.ceil(this.props.services.total / this.state.rowsPerPage)}
                 </Typography>
                 <Card>
                     <CardHeader
@@ -115,77 +115,72 @@ class Results extends Component
                                         <TableRow>
                                             <TableCell padding="checkbox">
                                                 <Checkbox
-                                                    checked={this.state.selectedOrders.length === users.length}
+                                                    checked={this.state.selectedService.length === data.length}
                                                     color="primary"
                                                     indeterminate={
-                                                        this.state.selectedOrders.length > 0 &&
-                                                        this.state.selectedOrders.length < users.length
+                                                        this.state.selectedService.length > 0 &&
+                                                        this.state.selectedService.length < data.length
                                                     }
                                                     onChange={this.handleSelectAll}
                                                 />
                                             </TableCell>
                                             <TableCell>ID</TableCell>
                                             <TableCell>Name</TableCell>
-                                            <TableCell>Usename</TableCell>
+                                            <TableCell>Nickname</TableCell>
                                             <TableCell>Status</TableCell>
                                             <TableCell>Date Record</TableCell>
-                                            <TableCell>Expiration Date</TableCell>
                                             <TableCell align="right">Actions</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {
-                                            this.props.users.map(user => (
-                                            <TableRow
-                                                key={user.id}
-                                                selected={this.state.selectedOrders.indexOf(user.id) !== -1}
-                                            >
-                                                <TableCell padding="checkbox">
-                                                    <Checkbox
-                                                        checked={this.state.selectedOrders.indexOf(user.id) !== -1}
-                                                        color="primary"
-                                                        onChange={event => this.handleSelectOne(event, user.id)}
-                                                        value={this.state.selectedOrders.indexOf(user.id) !== -1}
-                                                    />
-                                                </TableCell>
-                                                <TableCell>
-                                                    {user.id}
-                                                </TableCell>
+                                            data.map(service => (
+                                                <TableRow
+                                                    key={service.id}
+                                                    selected={this.state.selectedService.indexOf(service.id) !== -1}
+                                                >
+                                                    <TableCell padding="checkbox">
+                                                        <Checkbox
+                                                            checked={this.state.selectedService.indexOf(service.id) !== -1}
+                                                            color="primary"
+                                                            onChange={event => this.handleSelectOne(event, service.id)}
+                                                            value={this.state.selectedService.indexOf(service.id) !== -1}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {service.id}
+                                                    </TableCell>
 
-                                                <TableCell>{user.name}</TableCell>
-                                                <TableCell>{user.username}</TableCell>
-                                                <TableCell>
-                                                    {user.isActive ? <Label
-                                                        color={activeStatusColors['completed']}
-                                                        variant="outlined"
-                                                    >Activated</Label> : <Label
-                                                        color={activeStatusColors['canceled']}
-                                                        variant="outlined"
-                                                    >deactivated</Label>}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {
-                                                        new Date(Date.parse(user.recordingDate)).toLocaleString()
-                                                    }
-                                                </TableCell>
-                                                <TableCell>
-                                                    {
-                                                        user.expirationDate ? new Date(Date.parse(user.expirationDate)).toLocaleString() : null
-                                                    }
-                                                </TableCell>
-                                                <TableCell align="right">
-                                                    <Button
-                                                        color="primary"
-                                                        component={RouterLink}
-                                                        size="small"
-                                                        to={'/management/users/1'}
-                                                        variant="outlined"
-                                                    >
-                                                        View
-                                                    </Button>
-                                                </TableCell>
-                                            </TableRow>
-                                                        ))}
+                                                    <TableCell>{service.name}</TableCell>
+                                                    <TableCell>{service.nickname}</TableCell>
+                                                    <TableCell>
+                                                        {service.isActive ? <Label
+                                                            color={activeStatusColors['completed']}
+                                                            variant="outlined"
+                                                        >Activated</Label> : <Label
+                                                            color={activeStatusColors['canceled']}
+                                                            variant="outlined"
+                                                        >deactivated</Label>}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {
+                                                            new Date(Date.parse(service.recordingDate)).toLocaleString()
+                                                        }
+                                                    </TableCell>
+                                                    <TableCell align="right">
+                                                        <Button
+                                                            color="primary"
+                                                            component={RouterLink}
+                                                            size="small"
+                                                            to={'/management/users/1'}
+                                                            variant="outlined"
+                                                        >
+                                                            View
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))
+                                        }
                                     </TableBody>
                                 </Table>
                             </div>
@@ -194,7 +189,7 @@ class Results extends Component
                     <CardActions className={classes.actions}>
                         <TablePagination
                             component="div"
-                            count={users.length}
+                            count={(this.props.services.total ? this.props.services.total : 0)}
                             onChangePage={this.handleChangePage}
                             onChangeRowsPerPage={this.handleChangeRowsPerPage}
                             page={this.state.page}
@@ -203,7 +198,7 @@ class Results extends Component
                         />
                     </CardActions>
                 </Card>
-                <TableEditBar selected={this.state.selectedOrders} />
+                <TableEditBar selected={this.state.selectedService} />
             </div>
         );
     }
@@ -211,7 +206,8 @@ class Results extends Component
 
 Results.propTypes = {
     className: PropTypes.string,
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    services: PropTypes.object.isRequired
 };
 
 Results.defaultProps = {

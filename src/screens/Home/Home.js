@@ -24,6 +24,8 @@ import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import PersonIcon from '@material-ui/icons/PersonOutlined';
 import ReceiptIcon from '@material-ui/icons/ReceiptOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
+import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntennaOutlined';
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import BuildIcon from '@material-ui/icons/BuildOutlined';
 
@@ -53,6 +55,36 @@ const navigationConfig = [
                     {
                         title: 'Analytics',
                         href: '/dashboards/analytics'
+                    }
+                ]
+            },
+            {
+                title: 'POP',
+                href: '/pop',
+                icon: SettingsInputAntennaIcon,
+                children: [
+                    {
+                        title: 'List',
+                        href: '/pop'
+                    },
+                    {
+                        title: 'Create',
+                        href: '/pop/create'
+                    }
+                ]
+            },
+            {
+                title: 'Switch Model',
+                href: '/switchmodel',
+                icon: FileCopyOutlinedIcon,
+                children: [
+                    {
+                        title: 'List',
+                        href: '/switchmodel'
+                    },
+                    {
+                        title: 'Create',
+                        href: '/switchmodel/create'
                     }
                 ]
             },

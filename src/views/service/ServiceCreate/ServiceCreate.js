@@ -28,6 +28,7 @@ class ServiceCreate extends React.Component {
         this.state = {
             values: {
                 name: '',
+                nickname: '',
                 isActive: true
             },
             openSnackbar: true
@@ -38,6 +39,7 @@ class ServiceCreate extends React.Component {
         this.setState({
             values: {
                 name: '',
+                nickname: '',
                 isActive: true
             },
             openSnackbar: true
@@ -50,6 +52,7 @@ class ServiceCreate extends React.Component {
             this.setState({
                 values: {
                     name: '',
+                    nickname: '',
                     isActive: true
                 },
                 openSnackbar: true
@@ -68,6 +71,7 @@ class ServiceCreate extends React.Component {
 
     handleChange = (event) => {
         event.persist();
+        console.log(event.target.type);
         this.setState({
             values: {
                 ...this.state.values,
@@ -83,7 +87,6 @@ class ServiceCreate extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         const classes = this.props.classes;
         const { className, rest } = this.props;
         const openSnack = !this.props.send && this.props.service ? true : this.props.error && this.props.error.message ? true : false;
@@ -128,11 +131,27 @@ class ServiceCreate extends React.Component {
                                     <Grid
                                         item
                                         md={6}
+                                        sm={6}
                                         xs={12}
                                     >
-                                        <Typography variant="h6">Usuário ativo?</Typography>
+                                        <TextField
+                                            value={this.state.values.nickname}
+                                            fullWidth
+                                            helperText="Informe o apelido serviço"
+                                            label="Apelido"
+                                            name="nickname"
+                                            onChange={this.handleChange}
+                                            variant="outlined"
+                                        />
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        md={6}
+                                        xs={12}
+                                    >
+                                        <Typography variant="h6">Serviço ativo?</Typography>
                                         <Typography variant="body2">
-                                            Se você alternar isso, o usuário será criado inativo.
+                                            Se você alternar isso, o serviço será criado inativo.
                                     </Typography>
                                         <Switch
                                             checked={this.state.values.isActive}

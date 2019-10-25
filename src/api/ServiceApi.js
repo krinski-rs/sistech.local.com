@@ -12,7 +12,6 @@ class ServiceApi {
             let params = encodeGetParams(parameters);
             url = url + '?' + params;
         }
-        console.log(url);
         return fetch(url, {
             method: 'GET',
             credentials: 'include',
