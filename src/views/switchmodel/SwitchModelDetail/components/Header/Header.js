@@ -19,13 +19,13 @@ class Header extends Component
                     gutterBottom
                     variant="overline"
                 >
-                    Serviço
+                    Switch Model
                 </Typography>
                 <Typography
                     component="h1"
                     variant="h3"
                 >
-                    Formulário para criar um modelo
+                    Visualização do Modelo
                 </Typography>
             </div>
         );

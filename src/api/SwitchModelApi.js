@@ -70,6 +70,66 @@ class SwitchModelApi {
             }
         });
     }
+
+    static getBrands() {
+        var url = 'http://sistech-api.local.com/switchmodel/brand';
+        return fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic " + btoa(clientId + ":" + apiKey)
+            }
+        }).then((response) => {
+            if (response.ok) {
+                return {
+                    ok: true,
+                    brands: response.json()
+                };
+            }
+            return {
+                ok: false,
+                error: response.json()
+            };
+        }).then((data) => {
+            return data;
+        }).catch((error) => {
+            return {
+                ok: false,
+                error: error.message
+            }
+        });
+    }
+
+    static getSwitchModel(id) {
+        var url = 'http://sistech-api.local.com/switchmodel/'+id;
+        return fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic " + btoa(clientId + ":" + apiKey)
+            }
+        }).then((response) => {
+            if (response.ok) {
+                return {
+                    ok: true,
+                    switchmodel: response.json()
+                };
+            }
+            return {
+                ok: false,
+                error: response.json()
+            };
+        }).then((data) => {
+            return data;
+        }).catch((error) => {
+            return {
+                ok: false,
+                error: error.message
+            }
+        });
+    }
 }
 
 export default SwitchModelApi;

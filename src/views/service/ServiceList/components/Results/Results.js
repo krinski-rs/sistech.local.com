@@ -104,7 +104,7 @@ class Results extends Component
                 <Card>
                     <CardHeader
                         action={<GenericMoreButton />}
-                        title="Orders"
+                        title="Service"
                     />
                     <Divider />
                     <CardContent className={classes.content}>

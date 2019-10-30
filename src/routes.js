@@ -44,6 +44,11 @@ const routes = [
                 component: lazy(() => import('./views/switchmodel/SwitchModelCreate'))
             },
             {
+                path: '/switchmodel/:id',
+                exact: true,
+                component: lazy(() => import('./views/switchmodel/SwitchModelDetail'))
+            },
+            {
                 path: '/pop',
                 exact: true,
                 component: lazy(() => import('./views/pop/PopList'))

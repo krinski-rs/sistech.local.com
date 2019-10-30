@@ -21,6 +21,7 @@ import * as switchmodelActions from '../../../actions/switchmodelActions';
 
 import Header from './components/Header';
 import useStyles from './style';
+import SwitchModelApi from '../../../api/SwitchModelApi';
 
 class SwitchModelCreate extends React.Component {
     constructor(props) {
@@ -28,21 +29,36 @@ class SwitchModelCreate extends React.Component {
         this.state = {
             values: {
                 name: '',
-                nickname: '',
-                isActive: true
+                isActive: true,
+                port10Ge: '',
+                portGe: '',
+                portFe: '',
+                brand: ''
             },
-            openSnackbar: true
+            openSnackbar: true,
+            arrayBrand: []
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+		this.updateBrand = this.updateBrand.bind(this);
+		this.handleChange = this.handleChange.bind(this);
     }
+
+	componentDidMount() {
+	    this.getBrands();
+	}
+
+
     UNSAFE_componentWillUnmount(){
         this.setState({
             values: {
                 name: '',
-                nickname: '',
-                isActive: true
+                isActive: true,
+                port10Ge: '',
+                portGe: '',
+                portFe: ''
             },
-            openSnackbar: true
+            openSnackbar: true,
+            arrayBrand: []
         });
         this.props.actions.resetSwitchModel();
     }
@@ -51,9 +67,12 @@ class SwitchModelCreate extends React.Component {
         if(!this.props.send && this.props.switchmodel){
             this.setState({
                 values: {
+                    ...this.state.values,
                     name: '',
-                    nickname: '',
-                    isActive: true
+                    isActive: true,
+                    port10Ge: '',
+                    portGe: '',
+                    portFe: ''
                 },
                 openSnackbar: true
             });
@@ -65,13 +84,13 @@ class SwitchModelCreate extends React.Component {
         event.preventDefault();
         this.props.actions.createSwitchModel(this.state.values);
         this.setState({
+            ...this.state,
             openSnackbar: true
         });
     }
 
     handleChange = (event) => {
         event.persist();
-        console.log(event.target.type);
         this.setState({
             values: {
                 ...this.state.values,
@@ -82,9 +101,26 @@ class SwitchModelCreate extends React.Component {
 
     handleSnackbarClose = () => {
         this.setState({
+            ...this.state,
             openSnackbar: false
         });
     }
+
+    async getBrands(){
+        let arrayBrand = await SwitchModelApi.getBrands();
+        if(arrayBrand.ok){
+            arrayBrand.brands.then(brands=>{
+                this.updateBrand(brands);
+            });
+        }
+    }
+
+	updateBrand(arrayBrand){
+		this.setState(prevState => ({
+            ...this.state,
+            arrayBrand: arrayBrand
+		}));
+	}
 
     render() {
         const classes = this.props.classes;
@@ -104,7 +140,7 @@ class SwitchModelCreate extends React.Component {
                         className={clsx(classes.root, className)}
                     >
                         <form onSubmit={this.handleSubmit}>
-                            <CardHeader title="Novo Serviço" />
+                            <CardHeader title="Novo Modelo" />
                             <Divider />
                             <CardContent>
                                 <Grid
@@ -134,12 +170,74 @@ class SwitchModelCreate extends React.Component {
                                         sm={6}
                                         xs={12}
                                     >
+								        <TextField
+											id="brand"
+											name="brand"
+											margin="dense"
+											select
+											fullWidth
+								            required
+											label="Marca"
+                                            onChange={this.handleChange}
+											variant="outlined"
+											SelectProps={{
+												native: true
+											}}
+										>
+                                                <option key={"brand_"} value=""></option>
+				        	        	{
+				        	    			this.state.arrayBrand.map(function(obj, idx){
+				        	            		return (
+				        	            			<option key={"brand_"+idx} value={obj}>{ obj }</option>
+						        	        	)
+				        	            	})
+				        	        	}
+							    		</TextField>
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        md={4}
+                                        sm={6}
+                                        xs={12}
+                                    >
                                         <TextField
-                                            value={this.state.values.nickname}
+                                            value={this.state.values.port10Ge}
                                             fullWidth
-                                            helperText="Informe o apelido serviço"
-                                            label="Apelido"
-                                            name="nickname"
+                                            helperText="Infrome a quantidade de portas 10GE"
+                                            label="10GE"
+                                            name="port10Ge"
+                                            onChange={this.handleChange}
+                                            variant="outlined"
+                                        />
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        md={4}
+                                        sm={6}
+                                        xs={12}
+                                    >
+                                        <TextField
+                                            value={this.state.values.portGe}
+                                            fullWidth
+                                            helperText="Infrome a quantidade de portas GE"
+                                            label="GE"
+                                            name="portGe"
+                                            onChange={this.handleChange}
+                                            variant="outlined"
+                                        />
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        md={4}
+                                        sm={6}
+                                        xs={12}
+                                    >
+                                        <TextField
+                                            value={this.state.values.portFe}
+                                            fullWidth
+                                            helperText="Infrome a quantidade de portas FE"
+                                            label="FE"
+                                            name="portFe"
                                             onChange={this.handleChange}
                                             variant="outlined"
                                         />
@@ -149,7 +247,7 @@ class SwitchModelCreate extends React.Component {
                                         md={6}
                                         xs={12}
                                     >
-                                        <Typography variant="h6">Serviço ativo?</Typography>
+                                        <Typography variant="h6">Modelo ativo?</Typography>
                                         <Typography variant="body2">
                                             Se você alternar isso, o serviço será criado inativo.
                                     </Typography>

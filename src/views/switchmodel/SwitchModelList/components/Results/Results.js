@@ -87,9 +87,8 @@ class Results extends Component
             completed: colors.green[600],
             rejected: colors.red[600]
         };
-        const data = [];
-        // const data = this.props.switchmodel.data ? this.props.switchmodel.data : [];
-        console.log(this.props);
+        // const data = [];
+        const data = this.props.switchmodels.data ? this.props.switchmodels.data : [];
         return (
             <div
                 {...rest}
@@ -104,7 +103,7 @@ class Results extends Component
                 <Card>
                     <CardHeader
                         action={<GenericMoreButton />}
-                        title="Orders"
+                        title="Switch Model"
                     />
                     <Divider />
                     <CardContent className={classes.content}>
@@ -126,7 +125,7 @@ class Results extends Component
                                             </TableCell>
                                             <TableCell>ID</TableCell>
                                             <TableCell>Name</TableCell>
-                                            <TableCell>Nickname</TableCell>
+                                            <TableCell>Brand</TableCell>
                                             <TableCell>Status</TableCell>
                                             <TableCell>Date Record</TableCell>
                                             <TableCell align="right">Actions</TableCell>
@@ -152,7 +151,7 @@ class Results extends Component
                                                     </TableCell>
 
                                                     <TableCell>{switchmodel.name}</TableCell>
-                                                    <TableCell>{switchmodel.nickname}</TableCell>
+                                                    <TableCell>{switchmodel.brand}</TableCell>
                                                     <TableCell>
                                                         {switchmodel.isActive ? <Label
                                                             color={activeStatusColors['completed']}
@@ -172,7 +171,7 @@ class Results extends Component
                                                             color="primary"
                                                             component={RouterLink}
                                                             size="small"
-                                                            to={'/management/users/1'}
+                                                            to={'/switchmodel/'+switchmodel.id}
                                                             variant="outlined"
                                                         >
                                                             View
@@ -207,7 +206,7 @@ class Results extends Component
 Results.propTypes = {
     className: PropTypes.string,
     users: PropTypes.array.isRequired,
-    switchmodel: PropTypes.object.isRequired
+    switchmodels: PropTypes.object.isRequired
 };
 
 Results.defaultProps = {

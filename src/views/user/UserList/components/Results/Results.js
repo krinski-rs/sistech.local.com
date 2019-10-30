@@ -103,7 +103,7 @@ class Results extends Component
                 <Card>
                     <CardHeader
                         action={<GenericMoreButton />}
-                        title="Orders"
+                        title="User"
                     />
                     <Divider />
                     <CardContent className={classes.content}>
