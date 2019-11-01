@@ -6,6 +6,7 @@ import users from './userReducer';
 import service from './serviceReducer';
 import pop from './popReducer';
 import switchmodel from './switchmodelReducer';
+import switchs from './switchsReducer';
 
 const rootReducer = combineReducers({
     // thunkData,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     users,
     service,
     pop,
-    switchmodel
+    switchmodel,
+    switchs
 });
 
 export default rootReducer;

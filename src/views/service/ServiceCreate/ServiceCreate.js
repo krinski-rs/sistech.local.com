@@ -71,7 +71,6 @@ class ServiceCreate extends React.Component {
 
     handleChange = (event) => {
         event.persist();
-        console.log(event.target.type);
         this.setState({
             values: {
                 ...this.state.values,

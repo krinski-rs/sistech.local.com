@@ -33,7 +33,7 @@ class Header extends Component
                             component="h1"
                             variant="h3"
                         >
-                            Pop
+                            Switch
                     </Typography>
                     </Grid>
                     <Grid item>
@@ -43,7 +43,7 @@ class Header extends Component
                             to={this.props.href}
                             component={Link}
                         >
-                            Add POP
+                            Add Switch
                     </Button>
                     </Grid>
                 </Grid>

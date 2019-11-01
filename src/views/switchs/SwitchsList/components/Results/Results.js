@@ -59,7 +59,7 @@ class Results extends Component
 
     handleSelectAll = event => {
         const selectedSwitchModel = event.target.checked
-            ? this.props.switchmodel.data.map(switchmodel => switchmodel.id)
+            ? this.props.switchs.data.map(switchs => switchs.id)
             : [];
 
         this.setState({
@@ -88,7 +88,7 @@ class Results extends Component
             rejected: colors.red[600]
         };
         // const data = [];
-        const data = this.props.switchmodels.data ? this.props.switchmodels.data : [];
+        const data = this.props.switchs.data ? this.props.switchs.data : [];
         return (
             <div
                 {...rest}
@@ -103,7 +103,7 @@ class Results extends Component
                 <Card>
                     <CardHeader
                         action={<GenericMoreButton />}
-                        title="Switch Model"
+                        title="Switch"
                     />
                     <Divider />
                     <CardContent className={classes.content}>
@@ -125,7 +125,8 @@ class Results extends Component
                                             </TableCell>
                                             <TableCell>ID</TableCell>
                                             <TableCell>Name</TableCell>
-                                            <TableCell>Brand</TableCell>
+                                            <TableCell>Model</TableCell>
+                                            <TableCell>Pop</TableCell>
                                             <TableCell>Status</TableCell>
                                             <TableCell>Date Record</TableCell>
                                             <TableCell align="right">Actions</TableCell>
@@ -133,27 +134,28 @@ class Results extends Component
                                     </TableHead>
                                     <TableBody>
                                         {
-                                            data.map(switchmodel => (
+                                            data.map(switchs => (
                                                 <TableRow
-                                                    key={switchmodel.id}
-                                                    selected={this.state.selectedSwitchModel.indexOf(switchmodel.id) !== -1}
+                                                    key={switchs.id}
+                                                    selected={this.state.selectedSwitchModel.indexOf(switchs.id) !== -1}
                                                 >
                                                     <TableCell padding="checkbox">
                                                         <Checkbox
-                                                            checked={this.state.selectedSwitchModel.indexOf(switchmodel.id) !== -1}
+                                                            checked={this.state.selectedSwitchModel.indexOf(switchs.id) !== -1}
                                                             color="primary"
-                                                            onChange={event => this.handleSelectOne(event, switchmodel.id)}
-                                                            value={this.state.selectedSwitchModel.indexOf(switchmodel.id) !== -1}
+                                                            onChange={event => this.handleSelectOne(event, switchs.id)}
+                                                            value={this.state.selectedSwitchModel.indexOf(switchs.id) !== -1}
                                                         />
                                                     </TableCell>
                                                     <TableCell>
-                                                        {switchmodel.id}
+                                                        {switchs.id}
                                                     </TableCell>
 
-                                                    <TableCell>{switchmodel.name}</TableCell>
-                                                    <TableCell>{switchmodel.brand}</TableCell>
+                                                    <TableCell>{ switchs.name }</TableCell>
+                                                    <TableCell>{ switchs.switchModel.brand + " - " + switchs.switchModel.name }</TableCell>
+                                                    <TableCell>{ switchs.pop ? switchs.pop.name : "" }</TableCell>
                                                     <TableCell>
-                                                        {switchmodel.isActive ? <Label
+                                                        {switchs.isActive ? <Label
                                                             color={activeStatusColors['completed']}
                                                             variant="outlined"
                                                         >&nbsp;&nbsp;Activated&nbsp;&nbsp;</Label> : <Label
@@ -162,16 +164,16 @@ class Results extends Component
                                                         >Deactivated</Label>}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {
-                                                            new Date(Date.parse(switchmodel.recordingDate)).toLocaleString()
-                                                        }
+                                                    {
+                                                        new Date(Date.parse(switchs.recordingDate)).toLocaleString()
+                                                    }
                                                     </TableCell>
                                                     <TableCell align="right">
                                                         <Button
                                                             color="primary"
                                                             component={RouterLink}
                                                             size="small"
-                                                            to={'/switchmodel/'+switchmodel.id}
+                                                            to={'/switchs/'+switchs.id}
                                                             variant="outlined"
                                                         >
                                                             View
@@ -206,7 +208,7 @@ class Results extends Component
 Results.propTypes = {
     className: PropTypes.string,
     users: PropTypes.array.isRequired,
-    switchmodels: PropTypes.object.isRequired
+    switchs: PropTypes.object.isRequired
 };
 
 Results.defaultProps = {

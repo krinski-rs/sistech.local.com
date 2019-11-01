@@ -26,6 +26,7 @@ import ReceiptIcon from '@material-ui/icons/ReceiptOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntennaOutlined';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import RouterOutlinedIcon from '@material-ui/icons/RouterOutlined';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import BuildIcon from '@material-ui/icons/BuildOutlined';
 
@@ -38,6 +39,11 @@ const navigationConfig = [
     {
         title: 'Pages',
         pages: [
+            {
+                title: 'Switchs',
+                href: '/switchs',
+                icon: RouterOutlinedIcon,
+            },
             {
                 title: 'Overview',
                 href: '/overview',
@@ -85,6 +91,21 @@ const navigationConfig = [
                     {
                         title: 'Create',
                         href: '/switchmodel/create'
+                    }
+                ]
+            },
+            {
+                title: 'Switchs',
+                href: '/switchs',
+                icon: RouterOutlinedIcon,
+                children: [
+                    {
+                        title: 'List',
+                        href: '/switchs'
+                    },
+                    {
+                        title: 'Create',
+                        href: '/switchs/create'
                     }
                 ]
             },

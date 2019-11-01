@@ -25,7 +25,7 @@ class Header extends Component
                     component="h1"
                     variant="h3"
                 >
-                    Formulário para criar um modelo
+                    Visualização do Modelo
                 </Typography>
             </div>
         );

@@ -32,7 +32,6 @@ class SwitchModelDetail extends React.Component {
     render() {
         const classes = this.props.classes;
         const { className, rest } = this.props;
-        console.log(this.props.switchmodel);
         return (
             <Page
                 className={classes.root}
@@ -91,6 +90,7 @@ class SwitchModelDetail extends React.Component {
                                         <TextField
                                             value={this.props.switchmodel.switchModelPort && this.props.switchmodel.switchModelPort.GE10 ? this.props.switchmodel.switchModelPort.GE10.quantities : "0"}
                                             fullWidth
+                                            disabled
                                             helperText="Infrome a quantidade de portas 10GE"
                                             label="10GE"
                                             variant="outlined"
@@ -105,6 +105,7 @@ class SwitchModelDetail extends React.Component {
                                         <TextField
                                             value={this.props.switchmodel.switchModelPort && this.props.switchmodel.switchModelPort.GE ? this.props.switchmodel.switchModelPort.GE.quantities : "0"}
                                             fullWidth
+                                            disabled
                                             helperText="Infrome a quantidade de portas GE"
                                             label="GE"
                                             variant="outlined"
@@ -119,6 +120,7 @@ class SwitchModelDetail extends React.Component {
                                         <TextField
                                             value={this.props.switchmodel.switchModelPort && this.props.switchmodel.switchModelPort.FE ? this.props.switchmodel.switchModelPort.FE.quantities : "0"}
                                             fullWidth
+                                            disabled
                                             helperText="Infrome a quantidade de portas FE"
                                             label="FE"
                                             variant="outlined"

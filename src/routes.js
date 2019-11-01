@@ -49,6 +49,21 @@ const routes = [
                 component: lazy(() => import('./views/switchmodel/SwitchModelDetail'))
             },
             {
+                path: '/switchs',
+                exact: true,
+                component: lazy(() => import('./views/switchs/SwitchsList'))
+            },
+            {
+                path: '/switchs/create',
+                exact: true,
+                component: lazy(() => import('./views/switchs/SwitchsCreate'))
+            },
+            {
+                path: '/switchs/:id',
+                exact: true,
+                component: lazy(() => import('./views/switchs/SwitchsDetail'))
+            },
+            {
                 path: '/pop',
                 exact: true,
                 component: lazy(() => import('./views/pop/PopList'))

@@ -17,34 +17,39 @@ import {
     Snackbar
 } from '@material-ui/core';
 import { Page, SnackbarContentWrapper } from '../../../components';
-import * as switchmodelActions from '../../../actions/switchmodelActions';
+import * as switchsActions from '../../../actions/switchsActions';
 
 import Header from './components/Header';
 import useStyles from './style';
-import SwitchModelApi from '../../../api/SwitchModelApi';
+import SwitchsApi from '../../../api/SwitchsApi';
 
-class SwitchModelCreate extends React.Component {
+class SwitchsCreate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             values: {
                 name: '',
                 isActive: true,
-                port10Ge: '',
-                portGe: '',
-                portFe: '',
-                brand: ''
+                pop: '',
+                username: '',
+                password: '',
+                addressIpv4: '',
+                addressIpv6: '',
+                switchModel: ''
             },
             openSnackbar: true,
-            arrayBrand: []
+            arrayPop: [],
+            arraySwitchModel: []
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-		this.updateBrand = this.updateBrand.bind(this);
+		this.updatePops = this.updatePops.bind(this);
+		this.updateSwitchModel = this.updateSwitchModel.bind(this);
 		this.handleChange = this.handleChange.bind(this);
     }
 
 	componentDidMount() {
-	    this.getBrands();
+	    this.getPops();
+	    this.getSwitchModel();
 	}
 
 
@@ -53,36 +58,42 @@ class SwitchModelCreate extends React.Component {
             values: {
                 name: '',
                 isActive: true,
-                port10Ge: '',
-                portGe: '',
-                portFe: ''
+                pop: '',
+                username: '',
+                password: '',
+                addressIpv4: '',
+                addressIpv6: '',
+                switchModel: ''
             },
             openSnackbar: true,
-            arrayBrand: []
+            arrayPop: [],
+            arraySwitchModel: []
         });
-        this.props.actions.resetSwitchModel();
+        this.props.actions.resetSwitchs();
     }
 
     UNSAFE_componentWillUpdate(){
-        if(!this.props.send && this.props.switchmodel){
+        if(!this.props.send && this.props.switchs){
             this.setState({
                 values: {
-                    ...this.state.values,
                     name: '',
                     isActive: true,
-                    port10Ge: '',
-                    portGe: '',
-                    portFe: ''
+                    pop: '',
+                    username: '',
+                    password: '',
+                    addressIpv4: '',
+                    addressIpv6: '',
+                    switchModel: ''
                 },
-                openSnackbar: true
+                openSnackbar: true,
             });
-            this.props.actions.resetSwitchModel();
+            this.props.actions.resetSwitchs();
         }
     }
 
     async handleSubmit(event) {
         event.preventDefault();
-        this.props.actions.createSwitchModel(this.state.values);
+        this.props.actions.createSwitchs(this.state.values);
         this.setState({
             ...this.state,
             openSnackbar: true
@@ -106,31 +117,46 @@ class SwitchModelCreate extends React.Component {
         });
     }
 
-    async getBrands(){
-        let arrayBrand = await SwitchModelApi.getBrands();
-        if(arrayBrand.ok){
-            arrayBrand.brands.then(brands=>{
-                this.updateBrand(brands);
+    async getPops(){
+        let arrayPop = await SwitchsApi.getPops();
+        if(arrayPop.ok){
+            arrayPop.pops.then(pops=>{
+                this.updatePops(pops);
             });
         }
     }
 
-	updateBrand(arrayBrand){
+    async getSwitchModel(){
+        let arraySwitchModel = await SwitchsApi.getSwitchModel();
+        if(arraySwitchModel.ok){
+            arraySwitchModel.switchmodel.then(switchModel=>{
+                this.updateSwitchModel(switchModel);
+            });
+        }
+    }
+
+	updatePops(arrayPop){
 		this.setState(prevState => ({
             ...this.state,
-            arrayBrand: arrayBrand
+            arrayPop: arrayPop
+		}));
+	}
+
+	updateSwitchModel(arraySwitchModel){
+		this.setState(prevState => ({
+            ...this.state,
+            arraySwitchModel: arraySwitchModel
 		}));
 	}
 
     render() {
         const classes = this.props.classes;
         const { className, rest } = this.props;
-        const openSnack = !this.props.send && this.props.switchmodel ? true : this.props.error && this.props.error.message ? true : false;
-
+        const openSnack = !this.props.send && this.props.switchs ? true : this.props.error && this.props.error.message ? true : false;
         return (
             <Page
                 className={classes.root}
-                title="SwitchModel Create"
+                title="Switchs Create"
             >
                 <Header />
                 <Divider className={classes.divider} />
@@ -140,7 +166,7 @@ class SwitchModelCreate extends React.Component {
                         className={clsx(classes.root, className)}
                     >
                         <form onSubmit={this.handleSubmit}>
-                            <CardHeader title="Novo Modelo" />
+                            <CardHeader title="Novo Switch" />
                             <Divider />
                             <CardContent>
                                 <Grid
@@ -149,14 +175,14 @@ class SwitchModelCreate extends React.Component {
                                 >
                                     <Grid
                                         item
-                                        md={6}
+                                        md={4}
                                         sm={6}
                                         xs={12}
                                     >
                                         <TextField
                                             value={this.state.values.name}
                                             fullWidth
-                                            helperText="Informe o nome do serviço"
+                                            helperText="Informe o nome do switch"
                                             label="Nome"
                                             name="name"
                                             onChange={this.handleChange}
@@ -166,31 +192,31 @@ class SwitchModelCreate extends React.Component {
                                     </Grid>
                                     <Grid
                                         item
-                                        md={6}
+                                        md={4}
                                         sm={6}
                                         xs={12}
                                     >
 								        <TextField
-											id="brand"
-											name="brand"
-											margin="dense"
+											id="switchModel"
+                                            value={this.state.values.switchModel}
+											name="switchModel"
 											select
 											fullWidth
 								            required
-											label="Marca"
                                             onChange={this.handleChange}
+											label="Switch Model"
 											variant="outlined"
 											SelectProps={{
-												native: true
+												native: true,
 											}}
 										>
-                                                <option key={"brand_"} value=""></option>
+                                            <option key={"switchModel_"} value=" " defaultValue>-- Selecione --</option>    
 				        	        	{
-				        	    			this.state.arrayBrand.map(function(obj, idx){
+				        	    			this.state.arraySwitchModel.data ? this.state.arraySwitchModel.data.map(function(obj, idx){
 				        	            		return (
-				        	            			<option key={"brand_"+idx} value={obj}>{ obj }</option>
+				        	            			<option key={"switchModel_"+obj.id} value={obj.id}>{ obj.brand + " - " + obj.name }</option>
 						        	        	)
-				        	            	})
+                                            }) : null
 				        	        	}
 							    		</TextField>
                                     </Grid>
@@ -200,15 +226,29 @@ class SwitchModelCreate extends React.Component {
                                         sm={6}
                                         xs={12}
                                     >
-                                        <TextField
-                                            value={this.state.values.port10Ge}
-                                            fullWidth
-                                            helperText="Infrome a quantidade de portas 10GE"
-                                            label="10GE"
-                                            name="port10Ge"
+								        <TextField
+											id="pop"
+											name="pop"
+											select
+                                            value={this.state.values.pop}
+											fullWidth
+								            required
+											label="Pop"
                                             onChange={this.handleChange}
-                                            variant="outlined"
-                                        />
+											variant="outlined"
+											SelectProps={{
+												native: true
+											}}
+										>
+                                        <option key={"pop_"} value=" " defaultValue>-- Selecione --</option>    
+				        	        	{
+				        	    			this.state.arrayPop.data ? this.state.arrayPop.data.map(function(obj, idx){
+				        	            		return (
+				        	            			<option key={"pop_"+obj.id} value={obj.id}>{ obj.name }</option>
+						        	        	)
+                                            }) : null
+				        	        	}
+							    		</TextField>
                                     </Grid>
                                     <Grid
                                         item
@@ -216,15 +256,16 @@ class SwitchModelCreate extends React.Component {
                                         sm={6}
                                         xs={12}
                                     >
-                                        <TextField
-                                            value={this.state.values.portGe}
-                                            fullWidth
-                                            helperText="Infrome a quantidade de portas GE"
-                                            label="GE"
-                                            name="portGe"
+							    		<TextField
+								            id="username"
+								            name="username"
                                             onChange={this.handleChange}
-                                            variant="outlined"
-                                        />
+                                            value={this.state.values.username}
+								            label="Username"
+								            type="text"
+								            fullWidth
+							    			variant="outlined"
+								        />
                                     </Grid>
                                     <Grid
                                         item
@@ -232,15 +273,50 @@ class SwitchModelCreate extends React.Component {
                                         sm={6}
                                         xs={12}
                                     >
-                                        <TextField
-                                            value={this.state.values.portFe}
-                                            fullWidth
-                                            helperText="Infrome a quantidade de portas FE"
-                                            label="FE"
-                                            name="portFe"
+							    		<TextField
+								            id="password"
+								            name="password"
                                             onChange={this.handleChange}
-                                            variant="outlined"
-                                        />
+                                            value={this.state.values.password}
+								            label="Password"
+								            type="password"
+								            fullWidth
+							    			variant="outlined"
+								        />
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        md={4}
+                                        sm={6}
+                                        xs={12}
+                                    >
+							    		<TextField
+								            id="addressIpv4"
+								            name="addressIpv4"
+                                            onChange={this.handleChange}
+                                            value={this.state.values.addressIpv4}
+								            label="IPV4 Address"
+								            type="text"
+								            fullWidth
+							    			variant="outlined"
+								        />
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        md={4}
+                                        sm={6}
+                                        xs={12}
+                                    >
+							    		<TextField
+								            id="addressIpv6"
+								            name="addressIpv6"
+                                            onChange={this.handleChange}
+                                            value={this.state.values.addressIpv6}
+								            label="IPV6 Address"
+								            type="text"
+								            fullWidth
+							    			variant="outlined"
+								        />
                                     </Grid>
                                     <Grid
                                         item
@@ -249,7 +325,7 @@ class SwitchModelCreate extends React.Component {
                                     >
                                         <Typography variant="h6">Modelo ativo?</Typography>
                                         <Typography variant="body2">
-                                            Se você alternar isso, o modelo será criado inativo.
+                                            Se você alternar isso, o switch será criado inativo.
                                     </Typography>
                                         <Switch
                                             checked={this.state.values.isActive}
@@ -284,7 +360,7 @@ class SwitchModelCreate extends React.Component {
                                 onClose={this.handleSnackbarClose}
                             >
                                 <SnackbarContentWrapper
-                                    variant={ !this.props.send && this.props.switchmodel ? "success" : "error" }
+                                    variant={ !this.props.send && this.props.switchs ? "success" : "error" }
                                     className={classes.leftIcon}
                                     message={ this.props.error && this.props.error.message ? this.props.error.message : "User saved successfully."}
                                     onClose={this.handleSnackbarClose}
@@ -303,15 +379,15 @@ class SwitchModelCreate extends React.Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        switchmodel: state.switchmodel.switchmodel,
-        error: state.switchmodel.error || {},
-        send: state.switchmodel.send || false
+        switchs: state.switchs.switchs,
+        error: state.switchs.error || {},
+        send: state.switchs.send || false
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(switchmodelActions, dispatch)
+        actions: bindActionCreators(switchsActions, dispatch)
     };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(SwitchModelCreate));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(SwitchsCreate));
