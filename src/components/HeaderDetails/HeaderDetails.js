@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { Typography } from '@material-ui/core';
 
 import useStyles from './style';
-class Header extends Component
+class HeaderDetails extends Component
 {
     render() {
         const { className, classes, ...rest } = this.props;
@@ -19,20 +19,22 @@ class Header extends Component
                     gutterBottom
                     variant="overline"
                 >
-                    Switch
+                   { this.props.title }
                 </Typography>
                 <Typography
                     component="h1"
                     variant="h3"
                 >
-                    Formulário para criar um switch
+                   { this.props.text }
                 </Typography>
             </div>
         );
     }
 }
 
-Header.propTypes = {
-    className: PropTypes.string
+HeaderDetails.propTypes = {
+    className: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired
 };
-export default withStyles(useStyles)(Header);
+export default withStyles(useStyles)(HeaderDetails);

@@ -40,7 +40,7 @@ const navigationConfig = [
         title: 'Pages',
         pages: [
             {
-                title: 'Switchs',
+                title: 'Switch',
                 href: '/switchs',
                 icon: RouterOutlinedIcon,
             },

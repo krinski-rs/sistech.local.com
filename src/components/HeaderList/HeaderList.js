@@ -6,7 +6,7 @@ import { Grid, Typography, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 import useStyles from './style';
-class Header extends Component
+class HeaderList extends Component
 {
     render() {
         const { className, classes, ...rest } = this.props;
@@ -27,14 +27,14 @@ class Header extends Component
                             gutterBottom
                             variant="overline"
                         >
-                            Management
-                    </Typography>
+                            { this.props.title }
+                        </Typography>
                         <Typography
                             component="h1"
                             variant="h3"
                         >
-                            Switch
-                    </Typography>
+                            { this.props.text }
+                        </Typography>
                     </Grid>
                     <Grid item>
                         <Button
@@ -43,8 +43,8 @@ class Header extends Component
                             to={this.props.href}
                             component={Link}
                         >
-                            Add Switch
-                    </Button>
+                            { this.props.addtext }
+                        </Button>
                     </Grid>
                 </Grid>
             </div>
@@ -52,9 +52,12 @@ class Header extends Component
     }
 }
 
-Header.propTypes = {
+HeaderList.propTypes = {
     className: PropTypes.string,
-    href: PropTypes.string
+    href: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    addtext: PropTypes.string.isRequired
 };
 
-export default withStyles(useStyles)(Header);
+export default withStyles(useStyles)(HeaderList);

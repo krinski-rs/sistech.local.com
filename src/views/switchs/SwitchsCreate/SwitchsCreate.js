@@ -16,10 +16,9 @@ import {
     Typography,
     Snackbar
 } from '@material-ui/core';
-import { Page, SnackbarContentWrapper } from '../../../components';
+import { Page, SnackbarContentWrapper, HeaderDetails } from '../../../components';
 import * as switchsActions from '../../../actions/switchsActions';
 
-import Header from './components/Header';
 import useStyles from './style';
 import SwitchsApi from '../../../api/SwitchsApi';
 
@@ -156,9 +155,9 @@ class SwitchsCreate extends React.Component {
         return (
             <Page
                 className={classes.root}
-                title="Switchs Create"
+                title="Switch Management"
             >
-                <Header />
+                <HeaderDetails title="Managemente" text="Form to add switch" />
                 <Divider className={classes.divider} />
                 <div className={classes.content}>
                     <Card
@@ -182,7 +181,7 @@ class SwitchsCreate extends React.Component {
                                         <TextField
                                             value={this.state.values.name}
                                             fullWidth
-                                            helperText="Informe o nome do switch"
+                                            helperText="Switch name"
                                             label="Nome"
                                             name="name"
                                             onChange={this.handleChange}
@@ -200,6 +199,7 @@ class SwitchsCreate extends React.Component {
 											id="switchModel"
                                             value={this.state.values.switchModel}
 											name="switchModel"
+                                            helperText="Switch model"
 											select
 											fullWidth
 								            required
@@ -230,6 +230,7 @@ class SwitchsCreate extends React.Component {
 											id="pop"
 											name="pop"
 											select
+                                            helperText="POP where is the switch"
                                             value={this.state.values.pop}
 											fullWidth
 								            required
@@ -259,6 +260,7 @@ class SwitchsCreate extends React.Component {
 							    		<TextField
 								            id="username"
 								            name="username"
+                                            helperText="Will be used to login to the switch"
                                             onChange={this.handleChange}
                                             value={this.state.values.username}
 								            label="Username"
@@ -276,6 +278,7 @@ class SwitchsCreate extends React.Component {
 							    		<TextField
 								            id="password"
 								            name="password"
+                                            helperText="Will be used to login to the switch"
                                             onChange={this.handleChange}
                                             value={this.state.values.password}
 								            label="Password"
@@ -293,6 +296,7 @@ class SwitchsCreate extends React.Component {
 							    		<TextField
 								            id="addressIpv4"
 								            name="addressIpv4"
+                                            helperText="Management IPv4 Address"
                                             onChange={this.handleChange}
                                             value={this.state.values.addressIpv4}
 								            label="IPV4 Address"
@@ -311,6 +315,7 @@ class SwitchsCreate extends React.Component {
 								            id="addressIpv6"
 								            name="addressIpv6"
                                             onChange={this.handleChange}
+                                            helperText="Management IPv6 Address"
                                             value={this.state.values.addressIpv6}
 								            label="IPV6 Address"
 								            type="text"
@@ -323,10 +328,10 @@ class SwitchsCreate extends React.Component {
                                         md={6}
                                         xs={12}
                                     >
-                                        <Typography variant="h6">Modelo ativo?</Typography>
+                                        <Typography variant="h6">Active model?</Typography>
                                         <Typography variant="body2">
-                                            Se você alternar isso, o switch será criado inativo.
-                                    </Typography>
+                                            If you toggle this, the switch will be created as inactive.
+                                        </Typography>
                                         <Switch
                                             checked={this.state.values.isActive}
                                             color="secondary"

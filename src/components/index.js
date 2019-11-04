@@ -7,3 +7,5 @@ export { default as SearchBar } from './SearchBar';
 export { default as GenericMoreButton } from './GenericMoreButton';
 export { default as TableEditBar } from './TableEditBar';
 export { default as SnackbarContentWrapper } from './SnackbarContentWrapper';
+export { default as HeaderDetails } from './HeaderDetails';
+export { default as HeaderList } from './HeaderList';

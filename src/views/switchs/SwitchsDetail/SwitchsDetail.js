@@ -13,10 +13,9 @@ import {
     TextField,
     Typography,
 } from '@material-ui/core';
-import { Page } from '../../../components';
+import { Page, HeaderDetails } from '../../../components';
 import * as switchsActions from '../../../actions/switchsActions';
 
-import Header from './components/Header';
 import useStyles from './style';
 
 class SwitchsDetail extends React.Component {
@@ -34,16 +33,16 @@ class SwitchsDetail extends React.Component {
         return (
             <Page
                 className={classes.root}
-                title="SwitchModel View"
+                title="Switch Management"
             >
-                <Header />
+                <HeaderDetails title="Managemente" text="Switch Details" />
                 <Divider className={classes.divider} />
                 <div className={classes.content}>
                     <Card
                         {...rest}
                         className={clsx(classes.root, className)}
                     >
-                            <CardHeader title="Modelo" />
+                            <CardHeader title="Switch" />
                             <Divider />
                             <CardContent>
                                 <Grid
@@ -59,7 +58,6 @@ class SwitchsDetail extends React.Component {
                                         <TextField
                                             value={ this.props.switchs.name ? this.props.switchs.name : "" }
                                             fullWidth
-                                            helperText="Informe o nome do switch"
                                             label="Nome"
                                             name="name"
                                             disabled
@@ -210,8 +208,6 @@ class SwitchsDetail extends React.Component {
         );
     }
 }
-
-
 
 function mapStateToProps(state, ownProps) {
     return {
